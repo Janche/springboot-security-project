@@ -1,0 +1,14 @@
+cdjcy:
+  #线程池配置
+  executors:
+      core: 5 #核心线程池
+      max: 5  #最大线程数
+      queue: 9999 #配置队列大小
+  alarmListenstart: false #是否开启报警监听服务
+  pagesize: 5
+  #  排序属性
+  sortcolumn:  "id"
+  #  排序规则 1 升序  2 降序
+  sorttype: 1
+  # 跨域ip处理
+  origins: http://localhost:8080,http://192.168.99.100:8091,http://192.168.99.178:8081,http://192.168.99.134:8080,http://192.168.99.166:8080,http://192.168.99.67:8080,http://192.168.99.178:8080,http://localhost:8081,http://cebon.hoteas.com:8082

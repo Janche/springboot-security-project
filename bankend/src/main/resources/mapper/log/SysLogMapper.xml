@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.core.log.dao.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.core.log.domain.SysLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="log_type" jdbcType="INTEGER" property="logType" />
+    <result column="operation" jdbcType="INTEGER" property="operation" />
+    <result column="log_user" jdbcType="BIGINT" property="logUser" />
+    <result column="log_ip" jdbcType="VARCHAR" property="logIp" />
+    <result column="log_method" jdbcType="VARCHAR" property="logMethod" />
+    <result column="log_params" jdbcType="VARCHAR" property="logParams" />
+    <result column="log_desc" jdbcType="VARCHAR" property="logDesc" />
+    <result column="log_time" jdbcType="BIGINT" property="logTime" />
+    <result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
+    <result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <resultMap id="SysLogOutpMap" type="com.example.core.log.dto.SysLogOutpDTO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="log_type" jdbcType="INTEGER" property="logType" />
+    <result column="operation" jdbcType="INTEGER" property="operation" />
+    <result column="log_user" jdbcType="VARCHAR" property="logUser" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="log_ip" jdbcType="VARCHAR" property="logIp" />
+    <result column="log_method" jdbcType="VARCHAR" property="logMethod" />
+    <result column="log_params" jdbcType="VARCHAR" property="logParams" />
+    <result column="log_desc" jdbcType="VARCHAR" property="logDesc" />
+    <result column="log_time" jdbcType="BIGINT" property="logTime" />
+    <result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
+    <result column="exception_detail" jdbcType="VARCHAR" property="exceptionDetail" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <resultMap id="SysLogExportDTOMap" type="com.example.core.log.dto.SysLogExportDTO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="operation" jdbcType="VARCHAR" property="operation" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="log_desc" jdbcType="VARCHAR" property="logDesc" />
+    <result column="exception_code" jdbcType="VARCHAR" property="exceptionCode" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <select id="exportLogList" resultMap="SysLogExportDTOMap">
+    select
+      s.id,
+      s.operation,
+      u.username,
+      s.log_desc,
+      s.exception_code,
+      s.create_time
+    from sys_log s
+    left join user u on u.id = s.log_user
+    where 1=1
+    <if test="dto.logUser != null and dto.logUser != ''">
+      and s.log_user = #{dto.logUser}
+    </if>
+    <if test="dto.operation != null and dto.operation != ''">
+      and s.operation = #{dto.operation}
+    </if>
+    <if test="dto.logDesc != null and dto.logDesc != ''">
+      and(  s.log_desc like CONCAT('%', #{dto.logDesc}, '%')
+      or s.log_ip like CONCAT('%', #{dto.logDesc}, '%')
+      )
+    </if>
+    <if test="dto.startTime != null and dto.startTime != ''">
+      and s.create_time <![CDATA[>=]]> #{dto.startTime}
+    </if>
+    <if test="dto.endTime != null and dto.endTime != ''">
+      and s.create_time <![CDATA[<=]]> #{dto.endTime}
+    </if>
+  </select>
+  <select id="selectLogByQuery" resultMap="SysLogOutpMap">
+    select
+      s.*,
+      u.username
+    from sys_log s
+    left join user u on u.id = s.log_user
+    where 1=1
+    <if test="dto.logType != null and dto.logType != ''">
+      and s.log_type = #{dto.logType}
+    </if>
+    <if test="dto.operation != null and dto.operation != ''">
+      and s.operation = #{dto.operation}
+    </if>
+    <if test="dto.logDesc != null and dto.logDesc != ''">
+      and(  s.log_desc like CONCAT('%', #{dto.logDesc}, '%')
+          or s.log_ip like CONCAT('%', #{dto.logDesc}, '%')
+        )
+    </if>
+    <if test="dto.startTime != null and dto.startTime != ''">
+      and s.create_time <![CDATA[>=]]> #{dto.startTime}
+    </if>
+    <if test="dto.endTime != null and dto.endTime != ''">
+      and s.create_time <![CDATA[<=]]> #{dto.endTime}
+    </if>
+  </select>
+</mapper>

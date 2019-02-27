@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="project.name" value="cdjcy"/>
+    <property name="log" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] --- %logger{36} - %msg%n"/>
+    <property name="log.path" value="log"/>
+    <property name="file.Size" value="10MB"/>
+    <property name="file.totalSize" value="300MB"/>
+    <!-- 彩色日志格式 -->
+    <property name="log.pattern.color" value="%cyan(%d{yyyy-MM-dd HH:mm:ss.SSS}) [%yellow(%thread)] %highlight(%-5level) %blue(%-36logger{36}) - %msg%n" />
+
+    <contextName>${project.name}</contextName>
+
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <!--console_log-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${log.pattern.color}</pattern>
+        </encoder>
+    </appender>
+
+    <!--debug_log-->
+    <appender name="debug" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${log}</pattern>
+        </encoder>
+    </appender>
+
+    <!--info_log-->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{YYYY-MM-dd}/${project.name}_info_%d{YYYY-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${file.Size}</maxFileSize>
+            <maxHistory>14</maxHistory>
+            <totalSizeCap>${file.totalSize}</totalSizeCap>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--warn_log-->
+    <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{YYYY-MM-dd}/${project.name}_warn_%d{YYYY-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${file.Size}</maxFileSize>
+            <maxHistory>14</maxHistory>
+            <totalSizeCap>${file.totalSize}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--error_log-->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{YYYY-MM-dd}/${project.name}_error_%d{YYYY-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>${file.Size}</maxFileSize>
+            <maxHistory>14</maxHistory>
+            <totalSizeCap>${file.totalSize}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--<root level="INFO">-->
+        <!--<appender-ref ref="console"/>-->
+        <!--&lt;!&ndash;开发阶段不生成日志文件，需要就放开即可&ndash;&gt;-->
+        <!--&lt;!&ndash;<appender-ref ref="WARN_FILE"/>-->
+        <!--<appender-ref ref="INFO_FILE"/>-->
+        <!--<appender-ref ref="ERROR_FILE"/>&ndash;&gt;-->
+    <!--</root>-->
+
+
+    <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+    <springProfile name="dev">
+        <logger name="root" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+        <logger name="com.example.core" level="DEBUG" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="test">
+        <logger name="root" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+        <logger name="com.example.core" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </logger>
+    </springProfile>
+
+
+    <springProfile name="product">
+        <logger name="root" level="INFO" additivity="false">
+            <appender-ref ref="INFO_FILE"/>
+        </logger>
+        <logger name="com.example.core" level="INFO" additivity="false">
+            <appender-ref ref="INFO_FILE"/>
+        </logger>
+    </springProfile>
+    <!-- 常规logger 指定包名 和 日志级别 才会被日志处理  （传播日志） -->
+    <!--<logger name="com.example.core.web.controller" level="INFO"  />-->
+
+    <!-- 自定义logger 自己的appender处理 不传播到root中 -->
+    <!-- <logger name="com.example.core.web.controller.test.TestExceptionController" level="WARN" additivity="false">
+         <appender-ref ref="console"/>
+     </logger>-->
+</configuration>

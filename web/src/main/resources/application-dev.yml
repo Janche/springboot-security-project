@@ -1,0 +1,116 @@
+#开发环境
+server:
+  port: 9999
+  # session失效时间
+  servlet:
+    session:
+      timeout: 36000s
+
+spring:
+  profiles:
+    include: errorcode,sysconfig
+  #json数据格式化
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
+    time-zone: GMT+8
+  # 数据源
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.99.254:3306/cdjcy_develop?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+
+    # Druid连接池配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 初始化
+    initialSize: 3
+    # 最大
+    maxActive: 20
+    # 最小
+    minIdle: 3
+    # 最大连接等待超时时间
+    maxWait: 60000
+    # 打开PSCache,并且指定每个连接PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 配置间隔多久才进行一次检测,检测需要关闭的空闲连接,单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间,单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    # 配置监控统计拦截的filters,去掉后监控界面sql将无法统计,'wall'用于防火墙
+    filters: stat, wall, log4j
+
+  # http
+  http:
+    # 过滤字符编码
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  # 文件上传大小
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 50MB
+      # 一次传多个文件的总大小
+      max-request-size: 100MB
+
+  #redis
+  redis:
+    database: 0
+    # Redis服务器地址
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 5000ms
+
+    jedis:
+      pool:
+        # 连接池中的最大连接数
+        max-active: 8
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+  # 取消spring对freemarker默认templates目录的检测
+  freemarker:
+    check-template-location: false
+  jpa:
+    open-in-view: false
+
+###   Mybatis Config  ###
+mybatis:
+  check-config-location: true
+  typeAliasesPackage: com.example.core.**.domain
+  mapperLocations: classpath:mapper/**/*.xml
+  type-handlers-package: com.example.core.common.mybatis.handler.*
+
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+###   Mapper    ###
+# https://github.com/abel533/Mapper/wiki/3.config
+mapper:
+  IDENTITY: mysql
+  notEmpty: false
+
+# 日志
+logging.config: classpath:logging-spring.xml
+swagger:
+  title: 成都检察院接口文档
+  basepackage: com.example.core
+  version: 1.0.0
+
+#加密盐
+jasypt:
+  encryptor:
+    password: cdjcy

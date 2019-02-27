@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.core.user.dao.UserAndRoleMapper">
+  <resultMap id="BaseResultMap" type="com.example.core.user.domain.UserAndRole">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+  </resultMap>
+
+  <!--使用用户id删除与之角色关联关系-->
+  <delete id="deleteByUserID" parameterType="long">
+         DELETE FROM user_role WHERE user_id=#{id}
+  </delete>
+
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <property name="project.name" value="cdjcy"/>
+    <property name="project.pattern" value="%d{YYYY-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{36} - %msg%n"/>
+
+    <contextName>${project.name}</contextName>
+    <!--日志文件路径-->
+    <property name="log.path" value="log"/>
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--error以下的日志不会输出在控制台-->
+        <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+             <level>ERROR</level>
+         </filter>-->
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+    </appender>
+    <!--info_log-->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{YYYY-MM-dd}/${project.name}_info_%d{YYYY-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>3GB</maxFileSize>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--warn_log-->
+    <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{YYYY-MM-dd}/${project.name}_warn_%d{YYYY-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>3GB</maxFileSize>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--error_log-->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder charset="UTF-8">
+            <pattern>${project.pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{YYYY-MM-dd}/${project.name}_error_%d{YYYY-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>3GB</maxFileSize>
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <logger name="com.apache.ibatis" level="debug"/>
+    <logger name="java.sql.Connection" level="debug"/>
+    <logger name="java.sql.Statement" level="debug"/>
+    <logger name="java.sql.PreparedStatement" level="debug"/>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <!--开发阶段不生成日志文件-->
+       <!-- <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>-->
+
+    </root>
+    <!-- logback为java中的包 -->
+    <!--<logger name="com.example.corey.web.controller"/>-->
+    <!-- 自己的appender处理 不传播到root中 -->
+    <!-- <logger name="com.example.corey.web.controller.ExceptionController" level="WARN" additivity="false">
+         <appender-ref ref="console"/>
+     </logger>-->
+</configuration>

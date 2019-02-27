@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.core.user.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.example.core.user.domain.Role">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+      <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
+  </resultMap>
+
+
+   <resultMap id="RoleDTOResultMap" type="com.example.core.user.dto.RoleDTO">
+       <id column="id" jdbcType="BIGINT" property="id" />
+       <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+       <result column="description" jdbcType="VARCHAR" property="description" />
+       <result column="name" jdbcType="VARCHAR" property="name" />
+       <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+       <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+       <result column="seq" jdbcType="INTEGER" property="seq" />
+       <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+       <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
+
+       <!--权限列表-->
+       <collection property="menuRightList" ofType="com.example.core.user.domain.MenuRight" javaType="java.util.ArrayList">
+           <id column="mid" jdbcType="BIGINT" property="id" />
+           <result column="mparent_id" jdbcType="BIGINT" property="parentId" />
+           <result column="name" jdbcType="VARCHAR" property="name" />
+           <result column="mcreate_time" jdbcType="TIMESTAMP" property="modifyTime" />
+           <result column="mcreate_time" jdbcType="TIMESTAMP" property="createTime" />
+           <result column="seq" jdbcType="INTEGER" property="seq" />
+           <result column="url" jdbcType="VARCHAR" property="url" />
+           <result column="isvisible" jdbcType="INTEGER" property="isvisible" />
+           <result column="icon" jdbcType="VARCHAR" property="icon" />
+           <result column="method" jdbcType="VARCHAR" property="method" />
+           <result column="grades" jdbcType="INTEGER" property="grades" />
+       </collection>
+
+       <!--用户列表-->
+       <collection property="userList" ofType="com.example.core.user.domain.User" javaType="java.util.ArrayList">
+           <id column="uid" jdbcType="BIGINT" property="id" />
+           <result column="address" jdbcType="VARCHAR" property="address" />
+           <result column="ucreate_time" jdbcType="TIMESTAMP" property="createTime" />
+           <result column="email" jdbcType="VARCHAR" property="email" />
+           <result column="user_num" jdbcType="VARCHAR" property="userNum" />
+           <result column="level_id" jdbcType="INTEGER" property="levelId" />
+           <result column="umodify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+           <result column="password" jdbcType="VARCHAR" property="password" />
+           <result column="phone" jdbcType="VARCHAR" property="phone" />
+           <result column="sex" jdbcType="INTEGER" property="sex" />
+           <result column="truename" jdbcType="VARCHAR" property="truename" />
+           <result column="username" jdbcType="VARCHAR" property="username" />
+           <result column="state" jdbcType="INTEGER" property="state" />
+       </collection>
+
+   </resultMap>
+
+    <!--用户-->
+  <resultMap id="UserResultMap" type="com.example.core.user.domain.User"  >
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="email" jdbcType="VARCHAR" property="email" />
+      <result column="user_num" jdbcType="VARCHAR" property="userNum" />
+      <result column="level_id" jdbcType="INTEGER" property="levelId" />
+      <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="sex" jdbcType="INTEGER" property="sex" />
+      <result column="truename" jdbcType="VARCHAR" property="truename" />
+      <result column="username" jdbcType="VARCHAR" property="username" />
+      <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+
+    <!--根据权限id获取相应的角色-->
+    <select id="getRoleByMenuId" resultMap="BaseResultMap">
+        select
+          r.*
+        from role r
+        join role_right rr on rr.role_id = r.id
+        join menu_right mr on mr.id = rr.menu_id
+        where mr.id = #{menuId}
+    </select>
+
+  <!--获取所有角色信息和权限-->
+  <select id="findAllRole" resultMap="RoleDTOResultMap">
+           SELECT
+            r.id,
+            r.parent_id,
+            r.role_name,
+            r.description,
+            r.seq,
+            r.create_time,
+            r.modify_time,
+            r.role_index,
+            m.id as mid,
+            m.parent_id as mparent_id,
+            m. NAME,
+            m.method,
+            m.url,
+            m.icon,
+            m.isvisible,
+            m.grades,
+            m.seq as mseq,
+            m.create_time as mcreate_time,
+            m.modify_time as mmodify_time
+        FROM
+            role AS r
+        LEFT JOIN role_right AS rr ON rr.role_id = r.id
+        LEFT JOIN menu_right AS m ON rr.menu_id = m.id
+        ORDER BY r.id desc
+  </select>
+
+  <!--通过角色id获取所有用户-->
+  <select id="findUsersByRoleId" resultMap="RoleDTOResultMap" parameterType="long">
+        SELECT
+            r.id,
+            r.parent_id,
+            r.role_name,
+            r.name,
+            r.description,
+            r.seq,
+            r.create_time,
+            r.modify_time,
+            r.role_index,
+            u.id AS uid,
+            u.username,
+            u.PASSWORD,
+            u.phone,
+            u.email,
+            u.level_id,
+            u.modify_time AS umodify_time,
+            u.create_time AS ucreate_time,
+            u.truename,
+            u.user_num,
+            u.address,
+            u.sex,
+            u.state
+        FROM
+            role AS r
+        JOIN user_role AS us ON us.role_id = r.id
+        JOIN USER AS u ON u.id = us.user_id
+        WHERE
+            us.role_id = #{id}
+    </select>
+
+    <!--根据角色名查询是存在-->
+    <select id="findCountByName" parameterType="string" resultType="int">
+           SELECT COUNT(id) FROM role WHERE role_name=#{rolename}
+    </select>
+
+    <!--查询用户添加的角色集合-->
+    <select id="findByParentId" parameterType="long" resultMap="BaseResultMap">
+          SELECT * from  role WHERE parent_id=#{id}
+    </select>
+
+    <!--查询下级所有角色-->
+    <select id="findByRoleIndex"  parameterType="string"  resultMap="BaseResultMap">
+          SELECT *
+             from  role WHERE role_index=#{_parameter} or role_index like '%,${_parameter}%' or role_index like '%,${_parameter},%'
+    </select>
+
+    <select id="getRolesByUrl" resultMap="BaseResultMap">
+        select
+        distinct r.* from role r
+        left join role_right rr on rr.role_id = r.id
+        left join menu_right m on m.id = rr.menu_id
+        where m.url = #{url}
+
+    </select>
+
+</mapper>

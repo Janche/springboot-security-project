@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.core.user.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.core.user.domain.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_num" jdbcType="VARCHAR" property="userNum" />
+    <result column="level_id" jdbcType="INTEGER" property="levelId" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="truename" jdbcType="VARCHAR" property="truename" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+      <!--优先级-->
+      <result column="priority" jdbcType="INTEGER" property="priority" />
+  </resultMap>
+
+  <resultMap id="UserDTOMap" type="com.example.core.user.dto.UserDTO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_num" jdbcType="VARCHAR" property="userNum" />
+    <result column="level_id" jdbcType="INTEGER" property="levelId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="truename" jdbcType="VARCHAR" property="truename" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="role_name" jdbcType="BIGINT" property="rolename" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <!--优先级-->
+      <result column="priority" jdbcType="INTEGER" property="priority" />
+      <!--角色-->
+      <collection property="roleList" ofType="com.example.core.user.domain.Role" javaType="java.util.ArrayList">
+          <id column="rid" jdbcType="BIGINT" property="id" />
+          <result column="description" jdbcType="VARCHAR" property="description" />
+          <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+          <result column="rname" jdbcType="VARCHAR" property="name" />
+          <result column="rparent_id" jdbcType="BIGINT" property="parentId" />
+          <result column="category_id" jdbcType="BIGINT" property="categoryId" />
+          <result column="rcreate_time" jdbcType="TIMESTAMP" property="createTime" />
+          <result column="rmodify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+          <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
+      </collection>
+    <!-- 权限菜单 -->
+    <collection property="menuRightList" javaType="java.util.ArrayList" ofType="com.example.core.user.domain.MenuRight" >
+      <id column="mid" jdbcType="BIGINT" property="id" />
+      <result column="mparent_id" jdbcType="BIGINT" property="parentId" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+      <result column="grades" jdbcType="VARCHAR" property="grades" />
+      <result column="isvisible" jdbcType="INTEGER" property="isvisible" />
+      <result column="icon" jdbcType="VARCHAR" property="icon" />
+      <result column="method" jdbcType="VARCHAR" property="method" />
+      <result column="grades" jdbcType="INTEGER" property="grades" />
+    </collection>
+  </resultMap>
+
+  <!--根据用户名查找用户-->
+  <select id="findByUserName" parameterType="string" resultMap="BaseResultMap">
+    select * from user where username = #{username}
+  </select>
+
+  <select id="getRolesByUsername" resultMap="UserDTOMap">
+    select
+      u.id,
+      u.address,
+      u.email,
+      u.user_num,
+      u.level_id,
+      u.phone,
+      u.sex,
+      u.password,
+      u.username,
+      u.truename,
+      u.state,
+      u.create_time,
+      u.modify_time,
+      u.priority,
+
+      r.id rid,
+      r.description,
+      r.role_name,
+      r.name rname,
+      r.seq,
+      r.parent_id rparent_id,
+      r.create_time AS rcreate_time,
+      r.modify_time AS rmodify_time,
+      r.role_index,
+
+      m.id mid,
+      m.icon,
+      m.isvisible,
+      m.name,
+      m.grades,
+      m.seq m_seq,
+      m.url,
+      m.method,
+      m.parent_id mparent_id,
+      m.create_time m_create_time,
+      m.modify_time m_modify_time
+    from user u
+    left join user_role ur on u.id = ur.user_id
+    left join role r on ur.role_id = r.id
+    left join role_right rr on r.id = rr.role_id
+    left join menu_right m on rr.menu_id = m.id
+
+    where u.username = #{username}
+    order by m.parent_id;
+
+  </select>
+
+
+</mapper>

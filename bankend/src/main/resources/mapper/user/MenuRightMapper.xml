@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.core.user.dao.MenuRightMapper">
+  <resultMap id="BaseResultMap" type="com.example.core.user.domain.MenuRight">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="isvisible" jdbcType="INTEGER" property="isvisible" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="grades" jdbcType="INTEGER" property="grades" />
+  </resultMap>
+
+  <resultMap id="MenuRightDTOMap" type="com.example.core.user.dto.MenuRightDTO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="isvisible" jdbcType="INTEGER" property="isvisible" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="grades" jdbcType="INTEGER" property="grades" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+
+    <!-- 角色 -->
+    <collection javaType="java.util.Set" ofType="com.example.core.user.dto.RoleDTO" property="roles">
+      <id column="rid" jdbcType="BIGINT" property="id" />
+      <result column="description" jdbcType="VARCHAR" property="description" />
+      <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="seq" jdbcType="INTEGER" property="seq" />
+      <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+      <result column="r_create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="r_modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+      <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
+    </collection>
+  </resultMap>
+
+  <select id="queryList" resultMap="MenuRightDTOMap">
+    select
+    m.*,
+    r.id rid,
+    r.description,
+    r.role_name,
+    r.seq,
+    r.parent_id,
+    r.create_time r_create_time,
+    r.modify_time r_modify_time,
+    r.role_index
+    from menu_right m
+    left join role_right rr on m.id = rr.menu_id
+    left join role r on rr.role_id = r.id
+    where 1=1
+    <if test="roleIds != null and roleIds.size() > 0">
+      and r.id in
+      <foreach close=")" collection="roleIds" index="index" item="id" open="(" separator=",">
+        #{id}
+      </foreach>
+    </if>
+    <if test="menuRightDTO.parentId != null and menuRightDTO.parentId != ''">
+      and m.parent_id = #{menuRightDTO.parentId}
+    </if>
+    <if test="menuRightDTO.name != null and menuRightDTO.name != ''">
+      and m.name = #{menuRightDTO.name}
+    </if>
+  </select>
+
+  <!--搜索所有权限菜单节点、-->
+  <select id="findAllMenuRight" resultMap="BaseResultMap">
+     SELECT * from menu_right
+  </select>
+
+  <!--根据id查询权限菜单书-->
+  <select id="findMenuRightById" resultMap="BaseResultMap">
+      SELECT * from menu_right where id=#{param1}
+  </select>
+
+  <!--添加一个权限节点-->
+   <insert id="addMenuRight" parameterType="com.example.core.user.domain.MenuRight">
+     insert INTO menu_right (id,parent_id,name,method,url,icon,isvisible,grades,seq,create_time,modify_time)
+    VALUES (null,#{parentId},#{name},#{method},#{url},#{icon},#{isvisible},#{grades},#{seq},#{createTime},#{modifyTime});
+   </insert>
+
+  <!--修改单个权限菜单节点-->
+  <update id="updateMenuRight" parameterType="com.example.core.user.domain.MenuRight">
+     UPDATE menu_right SET
+    parent_id=#{parentId},
+		name=#{name},
+		method=#{method},
+		url=#{url},
+		icon=#{icon},
+		isvisible=#{isvisible},
+		grades=#{grades},
+		seq=#{seq},
+		create_time=#{createTime},
+		modify_time=#{modifyTime}
+		where id=#{id}
+  </update>
+
+  <!--删除单个权限菜单节点-->
+  <delete id="deleteMenuRight" >
+      DELETE FROM menu_right where id=#{param1}
+  </delete>
+
+  <!--通过用户id查询权限菜单节点树-->
+  <select id="findListByUserId" parameterType="long" resultMap="BaseResultMap">
+        SELECT mr.id,mr.parent_id,mr.name,mr.method,mr.url,
+         mr.icon,mr.isvisible,mr.grades,mr.seq,mr.create_time,mr.modify_time
+         from user u
+         JOIN user_role ur ON u.id=ur.user_id
+         JOIN role r ON r.id=ur.role_id
+         JOIN role_right rr ON rr.role_id=r.id
+         JOIN menu_right mr ON mr.id=rr.menu_id
+         where u.id=#{param1}
+  </select>
+
+  <!--通过角色查询权限-->
+  <select id="findListByRoleId" resultMap="BaseResultMap" parameterType="long">
+      SELECT mr.id,mr.parent_id,mr.name,mr.method,mr.url,
+         mr.icon,mr.isvisible,mr.grades,mr.seq,mr.create_time,mr.modify_time
+         FROM menu_right mr WHERE mr.id in
+      (SELECT rr.menu_id from role_right rr WHERE rr.role_id=#{param1})
+  </select>
+
+  <select id="findAllMenuRightByUrl" resultMap="BaseResultMap">
+    select * from menu_right m where m.url like concat(#{url}, '%');
+  </select>
+
+</mapper>
