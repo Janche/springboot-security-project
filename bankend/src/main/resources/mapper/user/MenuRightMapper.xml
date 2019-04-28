@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.core.user.dao.MenuRightMapper">
-  <resultMap id="BaseResultMap" type="com.example.core.user.domain.MenuRight">
+<mapper namespace="com.cebon.cdjcy.user.dao.MenuRightMapper">
+  <resultMap id="BaseResultMap" type="com.cebon.cdjcy.user.domain.MenuRight">
     <!--
       WARNING - @mbg.generated
     -->
@@ -18,7 +18,7 @@
     <result column="grades" jdbcType="INTEGER" property="grades" />
   </resultMap>
 
-  <resultMap id="MenuRightDTOMap" type="com.example.core.user.dto.MenuRightDTO">
+  <resultMap id="MenuRightDTOMap" type="com.cebon.cdjcy.user.dto.MenuRightDTO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
@@ -32,7 +32,7 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
 
     <!-- 角色 -->
-    <collection javaType="java.util.Set" ofType="com.example.core.user.dto.RoleDTO" property="roles">
+    <collection javaType="java.util.Set" ofType="com.cebon.cdjcy.user.dto.RoleDTO" property="roles">
       <id column="rid" jdbcType="BIGINT" property="id" />
       <result column="description" jdbcType="VARCHAR" property="description" />
       <result column="role_name" jdbcType="VARCHAR" property="roleName" />
@@ -85,13 +85,13 @@
   </select>
 
   <!--添加一个权限节点-->
-   <insert id="addMenuRight" parameterType="com.example.core.user.domain.MenuRight">
+   <insert id="addMenuRight" parameterType="com.cebon.cdjcy.user.domain.MenuRight">
      insert INTO menu_right (id,parent_id,name,method,url,icon,isvisible,grades,seq,create_time,modify_time)
     VALUES (null,#{parentId},#{name},#{method},#{url},#{icon},#{isvisible},#{grades},#{seq},#{createTime},#{modifyTime});
    </insert>
 
   <!--修改单个权限菜单节点-->
-  <update id="updateMenuRight" parameterType="com.example.core.user.domain.MenuRight">
+  <update id="updateMenuRight" parameterType="com.cebon.cdjcy.user.domain.MenuRight">
      UPDATE menu_right SET
     parent_id=#{parentId},
 		name=#{name},

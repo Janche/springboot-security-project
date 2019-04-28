@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.core.user.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.example.core.user.domain.User">
+<mapper namespace="com.cebon.cdjcy.user.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.cebon.cdjcy.user.domain.User">
     <!--
       WARNING - @mbg.generated
     -->
@@ -22,7 +22,7 @@
       <result column="priority" jdbcType="INTEGER" property="priority" />
   </resultMap>
 
-  <resultMap id="UserDTOMap" type="com.example.core.user.dto.UserDTO">
+  <resultMap id="UserDTOMap" type="com.cebon.cdjcy.user.dto.UserDTO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -40,7 +40,7 @@
     <!--优先级-->
       <result column="priority" jdbcType="INTEGER" property="priority" />
       <!--角色-->
-      <collection property="roleList" ofType="com.example.core.user.domain.Role" javaType="java.util.ArrayList">
+      <collection property="roleList" ofType="com.cebon.cdjcy.user.domain.Role" javaType="java.util.ArrayList">
           <id column="rid" jdbcType="BIGINT" property="id" />
           <result column="description" jdbcType="VARCHAR" property="description" />
           <result column="role_name" jdbcType="VARCHAR" property="roleName" />
@@ -52,7 +52,7 @@
           <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
       </collection>
     <!-- 权限菜单 -->
-    <collection property="menuRightList" javaType="java.util.ArrayList" ofType="com.example.core.user.domain.MenuRight" >
+    <collection property="menuRightList" javaType="java.util.ArrayList" ofType="com.cebon.cdjcy.user.domain.MenuRight" >
       <id column="mid" jdbcType="BIGINT" property="id" />
       <result column="mparent_id" jdbcType="BIGINT" property="parentId" />
       <result column="name" jdbcType="VARCHAR" property="name" />

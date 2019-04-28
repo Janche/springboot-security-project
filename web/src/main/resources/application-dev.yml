@@ -16,7 +16,7 @@ spring:
   # 数据源
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.99.254:3306/cdjcy_develop?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost:3306/boot2-oauth?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull
     username: root
     password: root
 
@@ -86,9 +86,9 @@ spring:
 ###   Mybatis Config  ###
 mybatis:
   check-config-location: true
-  typeAliasesPackage: com.example.core.**.domain
+  typeAliasesPackage: com.cebon.cdjcy.**.domain
   mapperLocations: classpath:mapper/**/*.xml
-  type-handlers-package: com.example.core.common.mybatis.handler.*
+  type-handlers-package: com.cebon.cdjcy.common.mybatis.handler.*
 
 #pagehelper
 pagehelper:
@@ -106,8 +106,8 @@ mapper:
 # 日志
 logging.config: classpath:logging-spring.xml
 swagger:
-  title: 成都检察院接口文档
-  basepackage: com.example.core
+  title: 接口文档
+  basepackage: com.cebon.cdjcy
   version: 1.0.0
 
 #加密盐

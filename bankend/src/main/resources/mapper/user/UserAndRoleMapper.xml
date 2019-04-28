@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.core.user.dao.UserAndRoleMapper">
-  <resultMap id="BaseResultMap" type="com.example.core.user.domain.UserAndRole">
+<mapper namespace="com.cebon.cdjcy.user.dao.UserAndRoleMapper">
+  <resultMap id="BaseResultMap" type="com.cebon.cdjcy.user.domain.UserAndRole">
     <!--
       WARNING - @mbg.generated
     -->

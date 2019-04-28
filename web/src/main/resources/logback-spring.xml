@@ -79,9 +79,9 @@
 
     </root>
     <!-- logback为java中的包 -->
-    <!--<logger name="com.example.corey.web.controller"/>-->
+    <!--<logger name="com.cebon.cdjcyy.web.controller"/>-->
     <!-- 自己的appender处理 不传播到root中 -->
-    <!-- <logger name="com.example.corey.web.controller.ExceptionController" level="WARN" additivity="false">
+    <!-- <logger name="com.cebon.cdjcyy.web.controller.ExceptionController" level="WARN" additivity="false">
          <appender-ref ref="console"/>
      </logger>-->
 </configuration>

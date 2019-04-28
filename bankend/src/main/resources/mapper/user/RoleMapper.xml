@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.core.user.dao.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.example.core.user.domain.Role">
+<mapper namespace="com.cebon.cdjcy.user.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.cebon.cdjcy.user.domain.Role">
     <!--
       WARNING - @mbg.generated
     -->
@@ -17,7 +17,7 @@
   </resultMap>
 
 
-   <resultMap id="RoleDTOResultMap" type="com.example.core.user.dto.RoleDTO">
+   <resultMap id="RoleDTOResultMap" type="com.cebon.cdjcy.user.dto.RoleDTO">
        <id column="id" jdbcType="BIGINT" property="id" />
        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
        <result column="description" jdbcType="VARCHAR" property="description" />
@@ -29,7 +29,7 @@
        <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
 
        <!--权限列表-->
-       <collection property="menuRightList" ofType="com.example.core.user.domain.MenuRight" javaType="java.util.ArrayList">
+       <collection property="menuRightList" ofType="com.cebon.cdjcy.user.domain.MenuRight" javaType="java.util.ArrayList">
            <id column="mid" jdbcType="BIGINT" property="id" />
            <result column="mparent_id" jdbcType="BIGINT" property="parentId" />
            <result column="name" jdbcType="VARCHAR" property="name" />
@@ -44,7 +44,7 @@
        </collection>
 
        <!--用户列表-->
-       <collection property="userList" ofType="com.example.core.user.domain.User" javaType="java.util.ArrayList">
+       <collection property="userList" ofType="com.cebon.cdjcy.user.domain.User" javaType="java.util.ArrayList">
            <id column="uid" jdbcType="BIGINT" property="id" />
            <result column="address" jdbcType="VARCHAR" property="address" />
            <result column="ucreate_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -63,7 +63,7 @@
    </resultMap>
 
     <!--用户-->
-  <resultMap id="UserResultMap" type="com.example.core.user.domain.User"  >
+  <resultMap id="UserResultMap" type="com.cebon.cdjcy.user.domain.User"  >
       <id column="id" jdbcType="BIGINT" property="id" />
       <result column="address" jdbcType="VARCHAR" property="address" />
       <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

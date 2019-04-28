@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.core.log.dao.SysLogMapper">
-  <resultMap id="BaseResultMap" type="com.example.core.log.domain.SysLog">
+<mapper namespace="com.cebon.cdjcy.log.dao.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.cebon.cdjcy.log.domain.SysLog">
     <!--
       WARNING - @mbg.generated
     -->
@@ -19,7 +19,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
-  <resultMap id="SysLogOutpMap" type="com.example.core.log.dto.SysLogOutpDTO">
+  <resultMap id="SysLogOutpMap" type="com.cebon.cdjcy.log.dto.SysLogOutpDTO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="log_type" jdbcType="INTEGER" property="logType" />
     <result column="operation" jdbcType="INTEGER" property="operation" />
@@ -35,7 +35,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
 
-  <resultMap id="SysLogExportDTOMap" type="com.example.core.log.dto.SysLogExportDTO">
+  <resultMap id="SysLogExportDTOMap" type="com.cebon.cdjcy.log.dto.SysLogExportDTO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="operation" jdbcType="VARCHAR" property="operation" />
     <result column="username" jdbcType="VARCHAR" property="username" />

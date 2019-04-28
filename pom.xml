@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example.core</groupId>
+    <groupId>com.cebon.cdjcy</groupId>
     <artifactId>springboot-security-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
@@ -118,12 +118,19 @@
             <artifactId>jedis</artifactId>
             <version>${jedis.version}</version>
         </dependency>
-        <!-- poi -->
+
+        <!-- poi start -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>${poi.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- poi end -->
 
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-core -->
         <dependency>
@@ -140,7 +147,6 @@
         </dependency>
 
         <!-- 通用mapper -->
-
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -177,13 +183,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <!--poi-->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.9</version>
         </dependency>
 
     </dependencies>
