@@ -4,7 +4,7 @@ import ${basePackage}.common.core.AbstractService;
 import ${modulePackage}.${moduleName}.dao.${modelNameUpperCamel}Mapper;
 import ${modulePackage}.${moduleName}.domain.${modelNameUpperCamel};
 import ${modulePackage}.${moduleName}.service.${modelNameUpperCamel}Service;
-import ${basePackage}.common.utils.restResult.PageParam;
+import ${basePackage}.common.restResult.PageParam;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -25,7 +25,7 @@ import static com.example.janche.common.model.ProjectConstant.MAPPER_INTERFACE_R
  */
 public class CodeGenerator {
 
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/boot2-oauth?useUnicode=true&characterEncoding=utf8";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/boot2-oauth?useUnicode=true&characterEncoding=utf8&useSSL=false";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "root";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
@@ -68,8 +68,8 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         // genCodeByCustomModelName("menu_right", "UC", "MenuRight");  // 调用默认的模板
-//        genCodeByCustomModelNameAndTemplate("device", "device", "Device","simpleDict"); // 调用simpleDict的模板
-        genCodeByCustomModelNameAndTemplate("device_analysis", "export", "DeviceAnalysis","simpleDict"); // 调用simpleDict的模板
+//        genCodeByCustomModelNameAndTemplate("user", "user", "User","simpleDict"); // 调用simpleDict的模板
+        genCodeByCustomModelNameAndTemplate("test", "test2", "Test","simpleDict"); // 调用simpleDict的模板
 
 
     }
@@ -114,8 +114,8 @@ public class CodeGenerator {
             throw new RuntimeException("模块名称 不能为空");
         }
         genModelAndMapper(tableName, moduleName, modelName);
-         genService(tableName, moduleName, modelName, templateFolder);
-         genController(tableName, moduleName, modelName, templateFolder);
+        genService(tableName, moduleName, modelName, templateFolder);
+        genController(tableName, moduleName, modelName, templateFolder);
     }
 
     public static void genModelAndMapper(String tableName,

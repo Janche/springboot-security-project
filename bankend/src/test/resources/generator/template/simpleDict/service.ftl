@@ -2,7 +2,7 @@ package ${modulePackage}.${moduleName}.service;
 
 import ${modulePackage}.${moduleName}.domain.${modelNameUpperCamel};
 import ${basePackage}.common.core.Service;
-import ${basePackage}.common.utils.restResult.PageParam;
+import ${basePackage}.common.restResult.PageParam;
 import java.util.List;
 
 /**

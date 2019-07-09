@@ -2,10 +2,10 @@ package ${modulePackage}.web.controller.${moduleName};
 
 import ${modulePackage}.${moduleName}.domain.${modelNameUpperCamel};
 import ${modulePackage}.${moduleName}.service.${modelNameUpperCamel}Service;
-import ${basePackage}.common.utils.restResult.RestResult;
-import ${basePackage}.common.utils.restResult.ResultGenerator;
+import ${basePackage}.common.restResult.RestResult;
+import ${basePackage}.common.restResult.ResultGenerator;
 import ${basePackage}.web.aop.Log;
-import ${basePackage}.common.utils.restResult.PageParam;
+import ${basePackage}.common.restResult.PageParam;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
