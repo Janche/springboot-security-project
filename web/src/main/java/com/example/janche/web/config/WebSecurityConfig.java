@@ -98,7 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/images/**",
                 "/fonts/**",
                 "/favicon.ico",
-                "/janche/**",
+                "/static/**",
                 "/resources/**","/error","/status/*", "/swagger-ui.html", "/v2/**", "/webjars/**", "/swagger-resources/**");
     }
 

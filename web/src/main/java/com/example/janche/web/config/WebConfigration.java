@@ -29,9 +29,9 @@ public class WebConfigration implements  WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //处理的路径规则
-        registry.addResourceHandler("/janche/**")
+        registry.addResourceHandler("/static/**")
                 //到哪些目录下去查找静态资源
-                .addResourceLocations("classpath:/janche/");
+                .addResourceLocations("classpath:/static/");
     }
 
 }
