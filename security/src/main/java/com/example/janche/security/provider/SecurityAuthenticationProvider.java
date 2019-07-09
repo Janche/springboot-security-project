@@ -1,6 +1,5 @@
 package com.example.janche.security.provider;
 
-import com.example.janche.common.utils.MD5Util;
 import com.example.janche.security.authentication.SecurityUser;
 import com.example.janche.security.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,8 +32,9 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 	@Resource(name = "securityUtils")
 	private SecurityUtils securityUtils;
 
-	// @Resource(name = "passwordEncoder")
-    // private PasswordEncoder passwordEncoder;
+    @Autowired
+    @Qualifier("passwordEncoder")
+    private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Authentication authenticate(Authentication authentication ) throws AuthenticationException {
@@ -86,15 +87,9 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
             // 用户输入的密码
             String inputPassword = (String) token.getCredentials();
             // 根据加密算法加密用户输入的密码，然后和数据库中保存的密码进行比较
-           // if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
-           //     throw new BadCredentialsException("用户名/密码无效");
-           // }
-            if(!password.equals(encryptedPassword) && !encryptedPassword.equals(MD5Util.encode(inputPassword))) {
+            if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
                 throw new BadCredentialsException(userName + " 输入账号或密码不正确");
             }
-            // if(!password.equals(encryptedPassword)){
-            // 	throw new BadCredentialsException("密码错误");
-            // }
 
         }
         // [5] 成功登陆，把用户信息提交给 Spring Security
