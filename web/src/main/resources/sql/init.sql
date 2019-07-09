@@ -5,7 +5,6 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `area_id` bigint(11) NULL DEFAULT NULL COMMENT '关联区域',
   `username` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登陆账号',
   `password` varchar(126) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登陆密码',
   `sex` int(11) NULL DEFAULT NULL COMMENT '性别 0：男 1：女',
@@ -40,7 +39,7 @@ CREATE TABLE `menu_right`  (
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 288 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单节点表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 288 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for role
@@ -50,7 +49,6 @@ CREATE TABLE `role`  (
   `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
   `parent_id` bigint(11) NULL DEFAULT NULL COMMENT '父节点id',
   `role_index` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所有父级节点和当前节点',
-  `category_id` bigint(11) NULL DEFAULT NULL COMMENT '问/答分类',
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色名称描述',
   `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '系统的角色名称',
@@ -58,7 +56,7 @@ CREATE TABLE `role`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `modify_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '问答库表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for user_role
@@ -75,7 +73,7 @@ CREATE TABLE `user_role`  (
 DROP TABLE IF EXISTS `role_right`;
 CREATE TABLE `role_right`  (
   `role_id` bigint(11) NOT NULL COMMENT '角色id',
-  `menu_id` bigint(11) NOT NULL COMMENT '菜单id'
+  `menu_id` bigint(11) NOT NULL COMMENT '权限id'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 
@@ -193,13 +191,13 @@ INSERT INTO `menu_right` VALUES (156, 16, '修改角色及其权限', 'put', '/r
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '2', 'admin', '123456', '0', '李四', 'y0012', '5625@qq.com', '18382100123', '航利中心', '4', '2018-09-09 15:03:18', '2019-01-15 10:06:47', '1', '1');
+INSERT INTO `user` VALUES ('1', 'admin', '123456', '0', '李四', 'y0012', '5625@qq.com', '18382100123', '航利中心', '4', '2018-09-09 15:03:18', '2019-01-15 10:06:47', '1', '1');
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('1', '1', '1', null, 'ROLE_超级管理员', '超级管理员', '超级管理员', null, '2018-11-21 16:58:11', '2019-01-10 13:19:59');
-INSERT INTO `role` VALUES ('2', '1', '1,2', null, 'ROLE_系统管理员', '系统管理员', '系统管理员', null, '2018-11-21 16:58:07', '2019-01-21 17:22:34');
+INSERT INTO `role` VALUES ('1', '1', '1', 'ROLE_超级管理员', '超级管理员', '超级管理员', null, '2018-11-21 16:58:11', '2019-01-10 13:19:59');
+INSERT INTO `role` VALUES ('2', '1', '1,2', 'ROLE_系统管理员', '系统管理员', '系统管理员', null, '2018-11-21 16:58:07', '2019-01-21 17:22:34');
 
 -- ----------------------------
 -- Table structure for role_right

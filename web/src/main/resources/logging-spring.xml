@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <property name="project.name" value="cdjcy"/>
+    <property name="project.name" value="janche"/>
     <property name="log" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] --- %logger{36} - %msg%n"/>
     <property name="log.path" value="log"/>
     <property name="file.Size" value="10MB"/>
@@ -98,7 +98,7 @@
         <logger name="root" level="INFO" additivity="false">
             <appender-ref ref="console"/>
         </logger>
-        <logger name="com.cebon.cdjcy" level="DEBUG" additivity="false">
+        <logger name="com.example.janche" level="DEBUG" additivity="false">
             <appender-ref ref="console"/>
         </logger>
     </springProfile>
@@ -107,7 +107,7 @@
         <logger name="root" level="INFO" additivity="false">
             <appender-ref ref="console"/>
         </logger>
-        <logger name="com.cebon.cdjcy" level="INFO" additivity="false">
+        <logger name="com.example.janche" level="INFO" additivity="false">
             <appender-ref ref="console"/>
         </logger>
     </springProfile>
@@ -117,15 +117,15 @@
         <logger name="root" level="INFO" additivity="false">
             <appender-ref ref="INFO_FILE"/>
         </logger>
-        <logger name="com.cebon.cdjcy" level="INFO" additivity="false">
+        <logger name="com.example.janche" level="INFO" additivity="false">
             <appender-ref ref="INFO_FILE"/>
         </logger>
     </springProfile>
     <!-- 常规logger 指定包名 和 日志级别 才会被日志处理  （传播日志） -->
-    <!--<logger name="com.cebon.cdjcy.web.controller" level="INFO"  />-->
+    <!--<logger name="com.example.janche.web.controller" level="INFO"  />-->
 
     <!-- 自定义logger 自己的appender处理 不传播到root中 -->
-    <!-- <logger name="com.cebon.cdjcy.web.controller.test.TestExceptionController" level="WARN" additivity="false">
+    <!-- <logger name="com.example.janche.web.controller.test.TestExceptionController" level="WARN" additivity="false">
          <appender-ref ref="console"/>
      </logger>-->
 </configuration>

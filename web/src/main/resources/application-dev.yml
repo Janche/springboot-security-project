@@ -86,9 +86,9 @@ spring:
 ###   Mybatis Config  ###
 mybatis:
   check-config-location: true
-  typeAliasesPackage: com.cebon.cdjcy.**.domain
+  typeAliasesPackage: com.example.janche.**.domain
   mapperLocations: classpath:mapper/**/*.xml
-  type-handlers-package: com.cebon.cdjcy.common.mybatis.handler.*
+  type-handlers-package: com.example.janche.common.mybatis.handler.*
 
 #pagehelper
 pagehelper:
@@ -107,10 +107,10 @@ mapper:
 logging.config: classpath:logging-spring.xml
 swagger:
   title: 接口文档
-  basepackage: com.cebon.cdjcy
+  basepackage: com.example.janche
   version: 1.0.0
 
 #加密盐
 jasypt:
   encryptor:
-    password: cdjcy
+    password: janche

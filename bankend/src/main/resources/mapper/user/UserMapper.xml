@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cebon.cdjcy.user.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.cebon.cdjcy.user.domain.User">
+<mapper namespace="com.example.janche.user.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.example.janche.user.domain.User">
     <!--
       WARNING - @mbg.generated
     -->
@@ -22,7 +22,7 @@
       <result column="priority" jdbcType="INTEGER" property="priority" />
   </resultMap>
 
-  <resultMap id="UserDTOMap" type="com.cebon.cdjcy.user.dto.UserDTO">
+  <resultMap id="UserDTOMap" type="com.example.janche.user.dto.UserDTO">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -40,19 +40,18 @@
     <!--优先级-->
       <result column="priority" jdbcType="INTEGER" property="priority" />
       <!--角色-->
-      <collection property="roleList" ofType="com.cebon.cdjcy.user.domain.Role" javaType="java.util.ArrayList">
+      <collection property="roleList" ofType="com.example.janche.user.domain.Role" javaType="java.util.ArrayList">
           <id column="rid" jdbcType="BIGINT" property="id" />
           <result column="description" jdbcType="VARCHAR" property="description" />
           <result column="role_name" jdbcType="VARCHAR" property="roleName" />
           <result column="rname" jdbcType="VARCHAR" property="name" />
           <result column="rparent_id" jdbcType="BIGINT" property="parentId" />
-          <result column="category_id" jdbcType="BIGINT" property="categoryId" />
           <result column="rcreate_time" jdbcType="TIMESTAMP" property="createTime" />
           <result column="rmodify_time" jdbcType="TIMESTAMP" property="modifyTime" />
           <result column="role_index" jdbcType="VARCHAR" property="roleIndex" />
       </collection>
     <!-- 权限菜单 -->
-    <collection property="menuRightList" javaType="java.util.ArrayList" ofType="com.cebon.cdjcy.user.domain.MenuRight" >
+    <collection property="menuRightList" javaType="java.util.ArrayList" ofType="com.example.janche.user.domain.MenuRight" >
       <id column="mid" jdbcType="BIGINT" property="id" />
       <result column="mparent_id" jdbcType="BIGINT" property="parentId" />
       <result column="name" jdbcType="VARCHAR" property="name" />

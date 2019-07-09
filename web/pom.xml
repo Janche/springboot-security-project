@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
-        <groupId>com.cebon.cdjcy</groupId>
+        <groupId>com.example.janche</groupId>
         <artifactId>springboot-security-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -47,7 +47,7 @@
             <artifactId>spring-data-commons</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.cebon.cdjcy</groupId>
+            <groupId>com.example.janche</groupId>
             <artifactId>security</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

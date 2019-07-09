@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.cebon.cdjcy.common.model.ProjectConstant.MAPPER_INTERFACE_REFERENCE;
+import static com.example.janche.common.model.ProjectConstant.MAPPER_INTERFACE_REFERENCE;
 
 /**
  * <P></P>
@@ -25,7 +25,7 @@ import static com.cebon.cdjcy.common.model.ProjectConstant.MAPPER_INTERFACE_REFE
  */
 public class CodeGenerator {
 
-    private static final String JDBC_URL = "jdbc:mysql://192.168.99.254:3306/cdjcy_develop?useUnicode=true&characterEncoding=utf8";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/boot2-oauth?useUnicode=true&characterEncoding=utf8";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "root";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
@@ -45,12 +45,12 @@ public class CodeGenerator {
     /**
      * 项目基础包名称
      */
-    private static final String BASE_PACKAGE_PATH = "/com/cebon/cdjcy";
-    private static final String BASE_PACKAGE_ABSOLUTE_PATH = PROJECT_PATH + JAVA_PATH + "/com/cebon/cdjcy";
+    private static final String BASE_PACKAGE_PATH = "/com/example/janche";
+    private static final String BASE_PACKAGE_ABSOLUTE_PATH = PROJECT_PATH + JAVA_PATH + "/com/example/janche";
     // controller 的路径 不一样
-    private static final String CONTROLLER_PATH = PROJECT_PATH + "/web/src/main/java/com/cebon/cdjcy";
+    private static final String CONTROLLER_PATH = PROJECT_PATH + "/web/src/main/java/com/example/janche";
 
-    public static final String BASE_PACKAGE = "com.cebon.cdjcy";
+    public static final String BASE_PACKAGE = "com.example.janche";
 
     // private static final String MODULE_PACKAGE = BASE_PACKAGE + ".modules";
     private static final String MODULE_PACKAGE = BASE_PACKAGE;
