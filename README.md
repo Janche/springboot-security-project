@@ -8,4 +8,5 @@
 5. 加入对OAuth2的支持 （[博客地址](https://blog.csdn.net/qq_34997906/article/details/89600076)）
 
 ### 启动步骤
->  创建数据库boot2-oauth, 执行web模块下resources/sql/init.sql文件
+> 1. 创建数据库boot2-oauth, 执行web模块下resources/sql/init.sql文件
+> 2. 使用postman测试登录接口  /login  POST 方式 ，本项目返回均是JSON字符串，重定向到登录页面，需要前端做处理，若想要后端直接重定向到登录页面的话，需要配置WebSecurityConfig中引入的那几个Handler，将里面返回的json值改为重定向到登录页面即可。 
