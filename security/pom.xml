@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.example.janche</groupId>
-            <artifactId>bankend</artifactId>
+            <artifactId>backend</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

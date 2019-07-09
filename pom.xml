@@ -7,7 +7,7 @@
     <artifactId>springboot-security-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>bankend</module>
+        <module>backend</module>
         <module>swagger</module>
         <module>web</module>
         <module>common</module>

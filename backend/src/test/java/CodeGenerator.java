@@ -37,10 +37,10 @@ public class CodeGenerator {
     /**
      * 模板位置
      */
-    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/bankend/src/test/resources/generator/template";
+    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/backend/src/test/resources/generator/template";
 
-    private static final String JAVA_PATH = "/bankend/src/main/java"; //java文件路径
-    private static final String RESOURCES_PATH = "/bankend/src/main/resources";//资源文件路径
+    private static final String JAVA_PATH = "/backend/src/main/java"; //java文件路径
+    private static final String RESOURCES_PATH = "/backend/src/main/resources";//资源文件路径
 
     /**
      * 项目基础包名称
