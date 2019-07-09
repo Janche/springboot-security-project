@@ -31,13 +31,10 @@ public class ${modelNameUpperCamel}Controller {
     @Resource
     private ${modelNameUpperCamel}Service ${modelNameLowerCamel}Service;
 
-    //TODO 4. 为实体类的时间类型字段添加注解，指定时间的格式
-    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-
     @Log
     @PostMapping
-    @ApiOperation(value = "新增XX", notes = "单个新增", produces = "application/json") // TODO 5. API方法的说明
-    public RestResult add(@ApiParam(name = "XX信息", required = true) ${modelNameUpperCamel} ${modelNameLowerCamel}) { // TODO 6. API方法参数的说明
+    @ApiOperation(value = "新增XX", notes = "单个新增", produces = "application/json") // TODO 4. API方法的说明
+    public RestResult add(@ApiParam(name = "XX信息", required = true) ${modelNameUpperCamel} ${modelNameLowerCamel}) { // TODO 5. API方法参数的说明
         ${modelNameLowerCamel}.setCreateTime(new Date());
         ${modelNameLowerCamel}Service.save(${modelNameLowerCamel});
         return ResultGenerator.genSuccessResult().setMessage("保存成功");
@@ -45,16 +42,16 @@ public class ${modelNameUpperCamel}Controller {
 
     @Log
     @DeleteMapping
-    @ApiOperation(value = "删除XX", notes = "单个删除", produces = "application/json") // TODO
-    public RestResult delete(@ApiParam(name = "XX信息", required = true) Long id) { // TODO
+    @ApiOperation(value = "删除XX", notes = "单个删除", produces = "application/json")
+    public RestResult delete(@ApiParam(name = "XX信息", required = true) Long id) {
         ${modelNameLowerCamel}Service.deleteById(id);
         return ResultGenerator.genSuccessResult().setMessage("删除成功");
     }
 
     @Log
     @PutMapping
-    @ApiOperation(value = "修改XX", notes = "单个修改" , code = 200, produces = "application/json") // TODO
-    public RestResult update(@ApiParam(name = "XX信息", required = true) ${modelNameUpperCamel} ${modelNameLowerCamel}) { // TODO
+    @ApiOperation(value = "修改XX", notes = "单个修改" , code = 200, produces = "application/json")
+    public RestResult update(@ApiParam(name = "XX信息", required = true) ${modelNameUpperCamel} ${modelNameLowerCamel}) {
         ${modelNameLowerCamel}.setModifyTime(new Date());
         ${modelNameLowerCamel}Service.update(${modelNameLowerCamel});
         return ResultGenerator.genSuccessResult().setMessage("修改成功");
@@ -62,7 +59,7 @@ public class ${modelNameUpperCamel}Controller {
 
     @Log
     @GetMapping
-    @ApiOperation(value = "获取XX信息", notes = "单个获取", code = 200, produces = "application/json") // TODO
+    @ApiOperation(value = "获取XX信息", notes = "单个获取", code = 200, produces = "application/json")
     public RestResult detail(@ApiParam(value = "主键ID") @RequestParam Long id) {
         ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.findById(id);
         return ResultGenerator.genSuccessResult(${modelNameLowerCamel});
@@ -74,9 +71,9 @@ public class ${modelNameUpperCamel}Controller {
      */
     @Log
     @GetMapping(value = "/list")
-    @ApiOperation(value = "XX列表分页查询", notes = "分页列表", code = 200, produces = "application/json") // TODO
-    public RestResult list(@ApiParam(value = "分页信息") PageParam pageParam,  // TODO
-                           @ApiParam(value = "查询条件") @RequestParam(required = false, defaultValue = "") String query) { // TODO
+    @ApiOperation(value = "XX列表分页查询", notes = "分页列表", code = 200, produces = "application/json")
+    public RestResult list(@ApiParam(value = "分页信息") PageParam pageParam,
+                           @ApiParam(value = "查询条件") @RequestParam(required = false, defaultValue = "") String query) {
         List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.list(pageParam, query);
         PageInfo pageInfo = new PageInfo(list);
         return ResultGenerator.genSuccessResult(pageInfo);
@@ -86,7 +83,7 @@ public class ${modelNameUpperCamel}Controller {
      * 下拉框查询所有
      */
     @Log
-    @ApiOperation(value = "XX列表查询所有", notes = "下拉框列表", code = 200, produces = "application/json") // TODO
+    @ApiOperation(value = "XX列表查询所有", notes = "下拉框列表", code = 200, produces = "application/json")
     @GetMapping(value = "/all")
     public RestResult listAll() {
         List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
