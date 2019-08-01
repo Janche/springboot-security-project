@@ -102,6 +102,7 @@ pagehelper:
 mapper:
   IDENTITY: mysql
   notEmpty: false
+  mappers: com.example.janche.common.core.Mapper
 
 # 日志
 logging.config: classpath:logging-spring.xml

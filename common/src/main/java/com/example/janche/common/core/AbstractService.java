@@ -45,10 +45,10 @@ public abstract class AbstractService<T> implements Service<T> {
         mapper.deleteByPrimaryKey(id);
     }
 
-    @Override
-    public void deleteByIds(String ids) {
-        mapper.deleteByIds(ids);
-    }
+    // @Override
+    // public void deleteByIds(String ids) {
+    //     mapper.deleteByIds(ids);
+    // }
 
     /**
      * 通过字段和值删除数据
@@ -115,10 +115,10 @@ public abstract class AbstractService<T> implements Service<T> {
         }
     }
 
-    @Override
-    public List<T> findByIds(String ids) {
-        return mapper.selectByIds(ids);
-    }
+    // @Override
+    // public List<T> findByIds(String ids) {
+        // return mapper.selectByIds(ids);
+    // }
 
     @Override
     public List<T> findByCondition(Condition condition) {

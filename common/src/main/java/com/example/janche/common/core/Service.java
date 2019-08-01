@@ -27,7 +27,7 @@ public interface Service<T> {
      */
     void delete(String field, String value);
 
-    void deleteByIds(String ids);//批量刪除 eg：ids -> “1,2,3,4”
+    // void deleteByIds(String ids);//批量刪除 eg：ids -> “1,2,3,4”
 
     void update(T model);//更新
 
@@ -46,7 +46,7 @@ public interface Service<T> {
      */
     List<T> findAllBy(String fieldName, Object value);
 
-    List<T> findByIds(String ids);//通过多个ID查找//eg：ids -> “1,2,3,4”
+    // List<T> findByIds(String ids);//通过多个ID查找//eg：ids -> “1,2,3,4”
 
     List<T> findByCondition(Condition condition);//根据条件查找
 
