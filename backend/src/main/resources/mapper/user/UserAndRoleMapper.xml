@@ -8,10 +8,4 @@
     <result column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
-
-  <!--使用用户id删除与之角色关联关系-->
-  <delete id="deleteByUserID" parameterType="long">
-         DELETE FROM user_role WHERE user_id=#{id}
-  </delete>
-
 </mapper>

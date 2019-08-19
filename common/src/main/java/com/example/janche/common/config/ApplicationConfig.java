@@ -19,32 +19,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApplicationConfig implements IApplicationConfig, Serializable {
-    private Map<Integer,String> userlevel;
-    private Map<Integer, String> errorcodes;
-    private Integer pagesize;
-    private String sortcolumn;
     private sortType sorttype;
     private String origins;
-    private Map<Integer,String> enableStatus;
-    private Map<Integer,String> caseStatus;
-    private Map<Integer,String> devStatus;
-    private Map<Integer,String> devFactory;
-    private Map<Integer,String> devType;
-    private Map<Integer,String> devResolution;
-    private Map<Integer,String> devCode;
-    private Map<Integer,String> devFrameRate;
-    private Map<Integer,String> devVideoStream;
-    private Map<Integer,String> devVideoBitrate;
-    private Map<Integer,String> alarmType;
-    private String alarmInfo;
     private Map<Integer,String> logOperation;
     private Map<Integer,String> logType;
-    private Long timeInterval;
-    private Map<Integer,String> videoQuality;
-    private Map<Integer,String> sexConfig;
-    private Map<Integer,String> userState;
-    private Map<Integer,String> videoClarity;
-    private String videoAnalysisURL;
+
 
 
     public enum  sortType {

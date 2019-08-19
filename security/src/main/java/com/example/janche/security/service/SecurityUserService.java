@@ -4,8 +4,10 @@ package com.example.janche.security.service;
 import com.example.janche.security.authentication.SecurityUser;
 import com.example.janche.user.dao.MenuRightMapper;
 import com.example.janche.user.dao.RoleMapper;
+import com.example.janche.user.domain.MenuRight;
+import com.example.janche.user.domain.Role;
 import com.example.janche.user.dto.LoginUserDTO;
-import com.example.janche.user.dto.UserDTO;
+import com.example.janche.user.dto.user.UserDTO;
 import com.example.janche.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +34,7 @@ public class SecurityUserService implements UserDetailsService {
         // 默认用户ID为1的为管理员
         if (null != userDTO){
             if(1L == userDTO.getId()) {
-                // this.getAdminPermission(userDTO);
+                this.getAdminPermission(userDTO);
             }
             SecurityUser securityUser = new SecurityUser(LoginUserDTO.user2LoginUserDTO(userDTO));
             return securityUser;
@@ -41,19 +43,16 @@ public class SecurityUserService implements UserDetailsService {
         }
     }
 
-
     /**
      * 为管理员赋所有权限
      * @param userDTO
      * @return
      */
-    // private UserDTO getAdminPermission(UserDTO userDTO) {
-    //     List<Role> roles = roleMapper.selectAll();
-    //     List<MenuRight> menuRights = menuRightMapper.selectAll();
-    //     List<ServiceGroup> serviceGroups = serviceGroupMapper.selectAll();
-    //     userDTO.setRoleList(roles);
-    //     userDTO.setMenuRightList(menuRights);
-    //     userDTO.setGroupList(serviceGroups);
-    //     return userDTO;
-    // }
+    private UserDTO getAdminPermission(UserDTO userDTO) {
+        List<Role> roles = roleMapper.selectAll();
+        List<MenuRight> menuRights = menuRightMapper.selectAll();
+        userDTO.setRoles(roles);
+        userDTO.setMenus(menuRights);
+        return userDTO;
+    }
 }

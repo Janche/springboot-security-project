@@ -126,6 +126,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(securityAuthenticationEntryPoint)
+                .accessDeniedHandler(securityAccessDeniedHandler)
                 .and()
                 .logout()
                 .deleteCookies("remove")

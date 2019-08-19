@@ -1,9 +1,7 @@
-package com.example.janche.user.dto;
-
+package com.example.janche.user.dto.user;
 
 import com.example.janche.user.domain.MenuRight;
 import com.example.janche.user.domain.Role;
-import com.example.janche.user.dto.user.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +11,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
-public class LoginUserDTO implements Serializable {
+public class UserDTO implements Serializable {
 
     /**
      * 主键ID
@@ -93,24 +91,5 @@ public class LoginUserDTO implements Serializable {
      * 权限菜单
      */
     private List<MenuRight> menus;
-
-    public static LoginUserDTO user2LoginUserDTO(UserDTO user) {
-        return LoginUserDTO.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .password(user.getPassword())
-                .address(user.getAddress())
-                .actualName(user.getActualName())
-                .email(user.getEmail())
-                .postId(user.getPostId())
-                .postName(user.getPostName())
-                .phone(user.getPhone())
-                .status(user.getStatus())
-                .createTime(user.getCreateTime())
-                .modifyTime(user.getModifyTime())
-                .roles(user.getRoles())
-                .menus(user.getMenus())
-                .build();
-    }
 
 }

@@ -8,22 +8,5 @@
     <result column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="menu_id" jdbcType="BIGINT" property="menuId" />
   </resultMap>
-
-  <!--根据角色id删除对应权限-->
-    <delete id="deleteByRoleId">
-        DELETE FROM role_right WHERE role_id = #{param1}
-    </delete>
-
-  <!--批量添加-->
-   <insert id="addList" parameterType="java.util.List" >
-     INSERT INTO role_right ( role_id,menu_id ) VALUES
-     <foreach collection="list" item="item" index="index"
-              separator=",">
-       (
-          #{item.roleId},#{item.menuId}
-       )
-     </foreach>
-   </insert>
-
 </mapper>
 

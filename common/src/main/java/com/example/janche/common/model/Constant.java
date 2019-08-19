@@ -17,4 +17,10 @@ public interface  Constant {
     int STATUS_ENABLE = 1;
     int STATUS_DISABLE = 0;
 
+    String RESET_PASSWORD = "123456";
+
+    String ADMIN_NAME = "超级管理员";
+
+    String ROLE_ADMIN = "ROLE_超级管理员";
+
 }

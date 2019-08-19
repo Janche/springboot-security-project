@@ -3,19 +3,35 @@ package com.example.janche.user.service;
 import com.example.janche.common.core.Service;
 import com.example.janche.common.restResult.PageParam;
 import com.example.janche.user.domain.User;
-import com.example.janche.user.dto.UserDTO;
-import com.example.janche.user.dto.UserInputDTO;
-import com.example.janche.user.dto.UserOutpDTO;
-import org.springframework.http.ResponseEntity;
+import com.example.janche.user.dto.MenuDTO;
+import com.example.janche.user.dto.user.*;
 
 import java.util.List;
 
 /**
 *
-* @author CodeGenerator
+* @author lirong
 * @date 2018-11-01 09:59:47
 */
 public interface UserService extends Service<User> {
+
+    /**
+     * 添加用户
+     * @param inputDTO
+     */
+    void addUser(UserInputDTO inputDTO);
+
+    /**
+     * 修改用户信息
+     * @param inputDTO
+     */
+    void updateUser(UserInputDTO inputDTO);
+
+    /**
+     *  删除用户
+     *  @param id 用户id
+     */
+    void deleteUser(Long id);
 
     /**
      * 根据分页、排序信息和检索条件查询 数据
@@ -26,19 +42,10 @@ public interface UserService extends Service<User> {
     List<User> list(PageParam pageParam, String query);
 
     /**
-     * 查询所有用户信息
-     *
+     * 下拉框用户列表
      * @return
      */
-    public List<User> queryList();
-
-    /**
-     * 根据登录用户名查找用户信息
-     *
-     * @param username
-     * @return
-     */
-    User findByUsername(String username);
+    List<User> listAll();
 
     /**
      * 根据用户名获取用户的相关权限信息
@@ -48,72 +55,48 @@ public interface UserService extends Service<User> {
     UserDTO getRolesByUsername(String username);
 
     /**
-     * 根据用户名和密码查找用户
-     * username 用户名
-     * password 密码
-     * @return Integer在数据库数量
+     * 分页条件查询所有用户
+     * @param pageParam
+     * @param dto
+     * @return
      */
-    public User findByNameAndPwd(String username,String password);
-
-    /**
-     * 根据用户名查询是存在
-     * @param username 用户名
-     * @return Integer 该名字用户数量
-     */
-    public Integer findCountByName(String username);
-
-    /**
-     * 根据用户编号查询是存在
-     * @param userNum 用户编号
-     * @return Integer 该编号数量
-     */
-    public Integer findCountByUserNum(String userNum);
-
-    /**
-     * 添加用户
-     * @param user
-     */
-    public void addUser(User user);
-
-    /**
-     * 修改用户信息
-     * @param user
-     */
-    public void updateUser(User user);
+    List<User> findAll(PageParam pageParam, UserConditionDTO dto);
 
     /**
      * 修改用户密码
-     * @param user
+     * @param dto
      */
-    public void updateUserPwd(User user);
+    void updateUserPwd(UserPwdDTO dto);
 
     /**
-     *  删除用户
-     *  @param id 用户id
+     * 重置用户密码
+     * @param userId
      */
-    public void deleteUserById(Long id);
+    void resetUserPwd(Long userId);
 
     /**
-     * 根据区域获取所有用户信息集合。（分页，返回用户加角色）
-     * @param inputDTO  查询条件
-     * @param pageParam 分页对象
-     * @return  List<UserDTO> userDTO信息集合
+     * 批量删除用户
+     * @param ids
      */
-    public List<UserOutpDTO> findListByArea(UserInputDTO inputDTO, PageParam pageParam);
+    void deleteUser(String ids);
 
     /**
-     * 查询用户详细信息（角色，权限集合，区域，业务组）
-     * id 用户id
-     * @return UserDTO用户详细信息
+     * 批量冻结用户
+     * @param ids
+     * @param status
      */
-    public UserDTO findUserMessage(Long id);
-
+    void frozeUser(String ids, Integer status);
 
     /**
-     * 导出用户列表
-     * @param pageParam
-     * @param inputDTO 查询条件
+     * 获取用户明细
+     * @param id
+     * @return
      */
-    ResponseEntity<byte[]> exportDeviceList(PageParam pageParam, UserInputDTO inputDTO);
+    UserOutpDTO findOne(Long id);
 
+    /**
+     * 获取用户所有的权限
+     * @return
+     */
+    List<MenuDTO> getUserMenus(Long userId);
 }

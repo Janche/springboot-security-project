@@ -1,8 +1,15 @@
 janche:
-  pagesize: 5
-  #  排序属性
-  sortcolumn:  "id"
-  #  排序规则 1 升序  2 降序
-  sorttype: 1
   # 跨域ip处理
   origins: http://localhost:8080,http://192.168.99.100:8091,http://127.0.0.1:8080,http://cebon.hoteas.com:8082
+
+
+  #=============日志操作类型==============
+  logOperation:
+    1: "新增"
+    2: "删除"
+    3: "修改"
+    4: "查看"
+    5: "登录"
+    6: "退出"
+    7: "导出"
+    8: "导入"

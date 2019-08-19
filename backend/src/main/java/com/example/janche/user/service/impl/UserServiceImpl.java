@@ -1,31 +1,31 @@
 package com.example.janche.user.service.impl;
 
-import com.example.janche.common.config.ApplicationConfig;
 import com.example.janche.common.core.AbstractService;
-import com.example.janche.common.util.PoiUtils;
+import com.example.janche.common.exception.CustomException;
+import com.example.janche.common.model.Constant;
 import com.example.janche.common.restResult.PageParam;
+import com.example.janche.common.restResult.ResultCode;
+import com.example.janche.user.dao.MenuRightMapper;
+import com.example.janche.user.dao.UserAndRoleMapper;
 import com.example.janche.user.dao.UserMapper;
 import com.example.janche.user.domain.User;
-import com.example.janche.user.dto.UserDTO;
-import com.example.janche.user.dto.UserInputDTO;
-import com.example.janche.user.dto.UserOutpDTO;
+import com.example.janche.user.domain.UserAndRole;
+import com.example.janche.user.dto.MenuDTO;
+import com.example.janche.user.dto.user.*;
 import com.example.janche.user.service.UserService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,157 +34,245 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Resource
     private UserMapper userMapper;
-
     @Resource
-    private ApplicationConfig applicationConfig;
+    private UserAndRoleMapper userAndRoleMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    @Override
-    public List<User> queryList() {
-
-        return null;
-    }
-
-    //根据用户名查询是存在
-    @Override
-    public Integer findCountByName(String username) {
-        return userMapper.findCountByName(username);
-    }
 
     @Override
     public List<User> list(PageParam pageParam, String query) {
         Example example = new Example(User.class);
-//        example.or().andLike("code", "%"+query+"%");
-//        example.or().andLike("deviceId", "%"+query+"%");
+        example.or().andLike("username", "%"+query+"%");
+        example.or().andLike("actualName", "%"+query+"%");
+        example.or().andLike("sex", "%"+query+"%");
 
         PageHelper.startPage(pageParam.getPage(), pageParam.getSize(), pageParam.getOrderBy());
         return userMapper.selectByExample(example);
     }
 
+    /**
+     * 下拉框用户列表
+     *
+     * @return
+     */
     @Override
-    public User findByUsername(String username) {
-        return userMapper.findByUserName(username);
+    public List<User> listAll() {
+        Example example = new Example(User.class);
+        example.and().andEqualTo("status", Constant.STATUS_ENABLE);
+        return userMapper.selectByExample(example);
     }
 
+    @Override
+    public List<User> findAll(PageParam pageParam, UserConditionDTO dto) {
+        PageHelper.startPage(pageParam.getPage(), pageParam.getSize(), pageParam.getOrderBy());
+        Example example = new Example(User.class);
+        if (StringUtils.isNotEmpty(dto.getUsername())){
+            example.and().andLike("username", "%"+dto.getUsername()+"%");
+        }
+        if (StringUtils.isNotEmpty(dto.getActualName())){
+            example.and().andLike("actualName", "%"+dto.getActualName()+"%");
+        }
+        if (null != dto.getStatus()){
+            example.and().andEqualTo("status", dto.getStatus());
+        }
+        return userMapper.selectByExample(example);
+    }
 
+    /**
+     * 根据用户名获取权限信息
+     * @param username
+     * @return
+     */
     @Override
     public UserDTO getRolesByUsername(String username) {
         return userMapper.getRolesByUsername(username);
     }
 
-    //根据用户名和密码查找用户
+    /**
+     * 添加用户
+     * @param inputDTO
+     */
     @Override
-    public User findByNameAndPwd(String username, String password) {
-        return userMapper.findByNameAndPwd(username,password);
-    }
-
-
-
-    //添加用户
-    @Override
-    public void addUser(User user) {
+    public void addUser(UserInputDTO inputDTO) {
+        User user = new User();
+        BeanUtils.copyProperties(inputDTO, user);
+        user.setPassword(passwordEncoder.encode(inputDTO.getPassword()));
+        // 默认启用
+        user.setStatus(Constant.STATUS_ENABLE);
         user.setCreateTime(new Date());
         user.setModifyTime(new Date());
-        userMapper.addUser(user);
+        userMapper.insert(user);
+        // 增加用户角色关联表
+        String roleIds = inputDTO.getRoleIds();
+        if (StringUtils.isNotEmpty(roleIds)){
+            insertUserAndRoles(roleIds, user);
+        }
     }
 
-
- //    根据用户编号查询是存在
+    /**
+     * 删除用户
+     * @param id
+     */
     @Override
-    public Integer findCountByUserNum(String userNum) {
-        return userMapper.findCountByUserNum(userNum);
+    public void deleteUser(Long id) {
+        // 删除用户和角色的关联
+        Example example = new Example(UserAndRole.class);
+        example.and().andEqualTo("userId", id);
+        userAndRoleMapper.deleteByExample(example);
+        // 删除用户
+        userMapper.deleteByPrimaryKey(id);
     }
 
-
-
-    //修改用户信息
+    /**
+     * 批量删除用户
+     * @param ids
+     */
     @Override
-    public void updateUser(User user) {
+    public void deleteUser(String ids) {
+        List<String> Ids = Arrays.stream(ids.split(",")).collect(Collectors.toList());
+        // 删除用户和角色的关联
+        Example example = new Example(UserAndRole.class);
+        example.and().andIn("userId", Ids);
+        userAndRoleMapper.deleteByExample(example);
+        // 删除用户
+        userMapper.deleteByIds(ids);
+    }
+
+    /**
+     * 批量冻结用户
+     * @param ids
+     */
+    @Override
+    public void frozeUser(String ids, Integer status) {
+        List<String> Ids = Arrays.stream(ids.split(",")).collect(Collectors.toList());
+        Example example = new Example(User.class);
+        example.and().andIn("id", Ids);
+        List<User> users = userMapper.selectByExample(example);
+        for (User user :users) {
+            user.setStatus(status);
+            user.setModifyTime(new Date());
+            userMapper.updateByPrimaryKeySelective(user);
+        }
+    }
+
+    /**
+     * 获取用户明细
+     * @param id
+     * @return
+     */
+    @Override
+    public UserOutpDTO findOne(Long id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        if (null == user){
+            throw new CustomException(ResultCode.USER_NOT_EXIST);
+        }
+        Example example = new Example(UserAndRole.class);
+        example.and().andEqualTo("userId", id);
+        List<UserAndRole> userAndRoles = userAndRoleMapper.selectByExample(example);
+
+        Set<Long> roleSet = new HashSet<>();
+        userAndRoles.stream().forEach(e ->
+            roleSet.add(e.getRoleId())
+        );
+        UserOutpDTO outpDTO = new UserOutpDTO();
+        BeanUtils.copyProperties(user, outpDTO);
+        outpDTO.setRoleIds(StringUtils.join(roleSet, ","));
+        return outpDTO;
+    }
+
+    /**
+     * 修改用户信息
+     * @param inputDTO
+     */
+    @Override
+    public void updateUser(UserInputDTO inputDTO) {
+        User user = new User();
+        BeanUtils.copyProperties(inputDTO, user);
         user.setModifyTime(new Date());
-        userMapper.updateUser(user);
+        userMapper.updateByPrimaryKeySelective(user);
+
+        // 删除用户角色关系
+        Example example = new Example(UserAndRole.class);
+        example.and().andEqualTo("userId", user.getId());
+        userAndRoleMapper.deleteByExample(example);
+        // 增加用户角色关联表
+        String roleIds = inputDTO.getRoleIds();
+        if (StringUtils.isNotEmpty(roleIds)){
+            insertUserAndRoles(roleIds, user);
+        }
     }
 
-    //修改用户密码
+    /**
+     * 批量插入用户角色关联记录
+     * @param roleIds
+     * @param user
+     */
+    private void insertUserAndRoles(String roleIds, User user) {
+        List<UserAndRole> list = new ArrayList<>();
+        Arrays.stream(roleIds.split(",")).forEach(e -> {
+            UserAndRole build = UserAndRole.builder()
+                    .userId(user.getId())
+                    .roleId(Long.parseLong(e))
+                    .build();
+            list.add(build);
+        });
+        userAndRoleMapper.insertList(list);
+    }
+
+
+    /**
+     * 修改用户密码
+     * @param dto
+     */
     @Override
-    public void updateUserPwd(User user) {
+    public void updateUserPwd(UserPwdDTO dto) {
+        User user = userMapper.selectByPrimaryKey(dto.getId());
+        boolean matches = passwordEncoder.matches(dto.getPassword(), user.getPassword());
+        if (!matches){
+            throw new CustomException(ResultCode.OLD_PASSWORD_ERROR);
+        }
+        String encodePwd = passwordEncoder.encode(dto.getNewPassword());
+        user.setPassword(encodePwd);
         user.setModifyTime(new Date());
-        userMapper.updateUserPwd(user);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
-    //删除用户
+    /**
+     * 重置用户密码
+     * @param userId
+     */
     @Override
-    public void deleteUserById(Long id) {
-        userMapper.deleteUserById(id);
-    }
-
-
-   //查询用户详细信息（用户，角色，权限集合，区域，业务组）
-    @Override
-    public UserDTO findUserMessage(Long id) {
-        return userMapper.findUserMessage(id);
-    }
-
-    //根据区域获取所有用户信息集合。（分页，返回用户加角色）
-    @Override
-    public List<UserOutpDTO> findListByArea(UserInputDTO inputDTO, PageParam pageParam) {
-       PageHelper.startPage(pageParam.getPage(), pageParam.getSize());
-       return userMapper.findListByArea(inputDTO);
-    }
-
-    // 导出用户列表
-    @Override
-    public ResponseEntity<byte[]> exportDeviceList(PageParam pageParam,UserInputDTO inputDTO) {
-        pageParam.setSize(0);  //查询全部
-        List<UserOutpDTO> data = this.findListByArea(inputDTO,pageParam);
-
-        Map<Integer, String> levelMap = applicationConfig.getUserlevel();
-        Long userId=1L;
-        for (UserOutpDTO dto : data) {
-//            System.out.println(dto.getLevelId());
-            dto.setId(userId);  //id顺序排列
-            userId+=1L;
-            dto.setLevelId(levelMap.get(dto.getLevelId()));
-            dto.setState((dto.getState().equals(1))?"允许":"禁止");
+    public void resetUserPwd(Long userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (null != user){
+            String encodePwd = passwordEncoder.encode(Constant.RESET_PASSWORD);
+            user.setPassword(encodePwd);
+            user.setModifyTime(new Date());
+            userMapper.updateByPrimaryKeySelective(user);
+        }else {
+            throw new CustomException(ResultCode.RESET_PASSWORD_ERROR);
         }
-
-        String[] headers = {"序号","用户编号","姓名","账号","职位","电话","角色","状态"};
-
-
-        PoiUtils poiUtils = new PoiUtils("用户列表", "导出模板.xls");
-        poiUtils.setHeaders(headers, "用户列表");
-
-        // 为excel表生成数据
-        poiUtils.fillDataAndStyle(data, 2);
-
-        // 将内容返回响应
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            poiUtils.getWorkbook().write(bos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bos != null) {
-                try {
-                    bos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        // 文件名
-        String filename = "用户列表";
-        try {
-            filename = new String(filename.getBytes("gbk"), "iso8859-1");
-        } catch (UnsupportedEncodingException e) {
-            log.warn("不支持编码格式");
-            e.printStackTrace();
-
-        }
-        // 设置http响应头
-        HttpHeaders header = new HttpHeaders();
-        header.add("Content-Disposition", "attachment;filename=" + filename + ".xls");
-
-        return new ResponseEntity<byte[]>(bos.toByteArray(), header, HttpStatus.CREATED);
     }
 
+    /**
+     * 判断用户名密码是否正确
+     * @param username
+     * @param password
+     * @return
+     */
+    private Boolean checkUser(String username, String password){
+        User user = this.findBy("username", username);
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    /**
+     * 获取用户权限
+     * @return
+     */
+    @Override
+    public List<MenuDTO> getUserMenus(Long userId) {
+        // return menuRightMapper.getMenusByUserId(userId);
+        return null;
+    }
 }

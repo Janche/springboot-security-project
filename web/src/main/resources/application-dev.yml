@@ -9,7 +9,7 @@ server:
 spring:
   profiles:
     include: errorcode,sysconfig
-  #json数据格式化
+  #json数据 日期 格式化
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
     time-zone: GMT+8
@@ -90,19 +90,20 @@ mybatis:
   mapperLocations: classpath:mapper/**/*.xml
   type-handlers-package: com.example.janche.common.mybatis.handler.*
 
-#pagehelper
+## Pagehelper
 pagehelper:
   helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
 
-###   Mapper    ###
-# https://github.com/abel533/Mapper/wiki/3.config
+###   通用 Mapper    ###
 mapper:
   IDENTITY: mysql
   notEmpty: false
-  mappers: com.example.janche.common.core.Mapper
+  mappers:
+    - com.example.janche.common.core.Mapper
+    - com.example.janche.common.core.TkMapper
 
 # 日志
 logging.config: classpath:logging-spring.xml
@@ -111,7 +112,3 @@ swagger:
   basepackage: com.example.janche
   version: 1.0.0
 
-#加密盐
-jasypt:
-  encryptor:
-    password: janche

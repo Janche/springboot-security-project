@@ -46,5 +46,4 @@ public class OauthClientDetails implements Serializable {
     private String additionalInformation;
 
     private String autoapprove;
-
 }

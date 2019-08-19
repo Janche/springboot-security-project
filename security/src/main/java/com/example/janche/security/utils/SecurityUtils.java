@@ -1,24 +1,23 @@
 package com.example.janche.security.utils;
 
+import com.example.janche.common.util.IPUtils;
+import com.example.janche.log.domain.SysLog;
 import com.example.janche.security.authentication.SecurityUser;
 import com.example.janche.user.dto.LoginUserDTO;
 import com.example.janche.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 
 @Component
 public class SecurityUtils {
 
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-	private UserService userService;
-
-//    @Autowired
-//    private TokenBasedRememberMeServices tokenBasedRememberMeServices;
     /**
      * 判断当前用户是否已经登陆
      * @return 登陆状态返回 true, 否则返回 false
@@ -54,4 +53,18 @@ public class SecurityUtils {
 		}
 		return null;
 	}
+
+    /**
+     * 构建Security操作的日志
+     * @param request
+     */
+    public static SysLog buildLog(HttpServletRequest request, Authentication authentication) {
+        LoginUserDTO user = (LoginUserDTO) authentication.getPrincipal();
+        SysLog sysLog = new SysLog();
+        sysLog.setLogUser(user.getId());
+        sysLog.setCreateTime(new Date());
+        sysLog.setLogIp(IPUtils.getIpAddr(request));
+        sysLog.setLogMethod(request.getMethod());
+        return sysLog;
+    }
 }

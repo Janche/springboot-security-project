@@ -36,7 +36,7 @@ public class SecurityUser extends LoginUserDTO implements UserDetails, Serializa
         List<Role> userRoles = this.getRoles();
         if(userRoles != null){
             for (Role role : userRoles) {
-                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
+                SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName());
                 authorities.add(authority);
             }
         }

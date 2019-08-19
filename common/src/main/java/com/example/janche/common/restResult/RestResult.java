@@ -35,6 +35,10 @@ public class RestResult<T> {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
     }
+    public RestResult(ResultCode resultCode, T data){
+        this(resultCode);
+        this.data = data;
+    }
 
     public RestResult(Integer code, String  message){
         this.code = code;

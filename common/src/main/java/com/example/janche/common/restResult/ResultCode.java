@@ -34,7 +34,7 @@ public enum ResultCode {
 
     LIMITED_AUTHORITY(-1000, "权限不够"),
 
-    UNLOGIN(-999, "用户未登录或账号已在其它地方登陆，请重新登录"),
+    UNLOGIN(-999, "用户未登录"),
 
     TOKEN_ILLEGAL(-996, "用户令牌不合法"),
 
@@ -56,75 +56,21 @@ public enum ResultCode {
 
     IMPORT_FAIL(4902, "未知错误，导入失败"),
 
-    /**
-     * 区域相关
-     */
-    AREA_ADD_FAIL(5001, "区域新增失败"),
 
-    AREA_UPDATE_FAIL(5002, "区域修改失败"),
 
-    AREA_DELETE_FAIL(5003, "区域修改失败"),
-
-    AREA_CODE_REPLACE(5004, "区域编码重复"),
-
-    USER_NOT_AREA(5005, "用户没有区域"),
-
-    AREAID_NOT_EXIST(5006, "区域ID不存在"),
-
-    AREA_EXIST_LINKED_USER(5007, "此区域存在关联用户,请先删除关联的用户"),
-
-    AREA_EXIST_LINKED_DEVICE(5008, "此区域存在关联设备,请先删除关联的设备"),
-
-    AREA_SELECT_FAIL(5009, "请选择正确的区域"),
-
-    /**
-     * 资源类别相关
-     */
-    CATEGORY_EXIST_LINKED_USER(5201, "此资源类别下存在关联用户,请先删除关联的用户"),
-
-    CATEGORY_EXIST_LINKED_DEVICE(5202, "此资源类别下存在关联设备,请先删除关联的设备"),
-
-    /**
-     * 设备相关
-     */
-    DEVICE_ADD_FAIL(5101, "设备新增失败"),
-
-    DEVICE_UPDATE_FAIL(5102, "设备修改失败"),
-
-    DEVICE_DELETE_FAIL(5103, "设备删除失败"),
-
-    DEVICEID_NOT_EXIST(5104, "设备ID不存在"),
-
-    DEVICE_CODE_REPEAT(5105, "设备编码重复，导入失败"),
-
-    DEVICE_IP_REPEAT(5106, "设备IP重复，导入失败"),
-
-    DEVICE_REQUIRED_NULL(5107, "必填字段部分为空，导入失败"),
-
-    DEVICE_TOTAL_OVER_MAX(5108, "系统设备数量已到最大值"),
-
-    DEVICE_IP_ILLEGAL(5109, "设备IP不合法，导入失败"),
-
-//===========  系统管理
     /**
      * 用户管理
      */
-    USER_ADD_FAIL(7001, "新增用户失败"),
 
-    USER_UPDATE_FAIL(7002, "修改用户失败"),
+    USER_FINDNOWUSER_FAIL(2004, "获取登录用户失败"),
 
-    USER_DELETE_FAIL(7003, "删除用户失败"),
+    USER_NOT_EXIST(2005, "用户不存在"),
 
-    USER_FINDNOWUSER_FAIL(7004, "获取登录用户失败"),
+    OLD_PASSWORD_ERROR(2002, "原密码错误"),
 
-    USER_FINDUSER_FAIL(7005, "获取用户失败"),
+    PASSWORD_ERROR(2003, "密码错误"),
 
-    USER_FINDLIST_FAIL(7006, "获取用户列表失败"),
-
-    USER_OUT_FAIL(7007, "导出用户列表失败"),
-
-    USER_IMPORT_FAIL(7008, "导入用户列表失败"),
-
+    RESET_PASSWORD_ERROR(2004, "重置密码失败"),
 
 
     /**
@@ -136,55 +82,8 @@ public enum ResultCode {
 
     ROLE_DELETE_FAIL(7103, "删除角色失败"),
 
-    ROLE_LIST_FAIL(7104, "获取角色列表失败"),
 
-    ROLE_FINDROLE_FAIL(7105, "获取角色失败"),
-
-    ROLE_USERLIST_FAIL(7106, "获取角色对应用户列表失败"),
-
-    ROLE_USERROLES_FAIL(7107, "获取用户能操作角色集合失败"),
-
-    /**
-     * 办公办案自定义
-     */
-    OFFICE_ADD_FAIL(7201, "新增办公办案系统失败"),
-
-    OFFICE_UPDATE_FAIL(7202, "修改办公办案系统失败"),
-
-    OFFICE_DELETE_FAIL(7203, "删除办公办案系统失败"),
-
-    OFFICE_LIST_FAIL(7204, "获取办公办案系统列表失败"),
-
-    OFFICE_UPLOAD_FAIL(7205, "上传图片失败"),
-
-    OFFICE_GETLIMAGE_FAIL(7206, "获取图片失败"),
-
-    OFFICE_LISTBAY_FAIL(7207, "分类获取办公办案系统失败"),
-
-    /**
-     * 业务组管理
-     */
-    GROUP_ADD_FAIL(7301, "新增业务组失败"),
-
-    GROUP_UPDATE_FAIL(7302, "修改业务组失败"),
-
-    GROUP_DELETE_FAIL(7303, "删除业务组失败"),
-
-    GROUP_LIST_FAIL(7304, "获取业务组列表失败"),
-
-
-
-    /**
-     * 系统配置
-     */
-    SYSCONFIG_GET_FAIL(7401, "获取系统配置失败"),
-
-    SYSCONFIG_UPDATE_FAIL(7402, "修改系统配置失败");
-
-
-
-
-// ==========运维管理
+    ;
 
     /**
      * 统计数据

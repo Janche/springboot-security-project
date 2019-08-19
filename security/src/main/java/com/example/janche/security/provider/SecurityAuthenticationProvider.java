@@ -53,13 +53,13 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
         //获取 username 和 password
 		String userName = (String) authentication.getPrincipal();
-        String password = (String) authentication.getCredentials();
+        String inputPassword = (String) authentication.getCredentials();
 
         // [2] 使用用户名从数据库读取用户信息
         SecurityUser userDetails = (SecurityUser) securityUserService.loadUserByUsername(userName);
 
         // 判断账号是否被禁用
-        if (null != userDetails && userDetails.getState() == 0){
+        if (null != userDetails && userDetails.getStatus() == 0){
             userDetails.setEnabled(false);
         }
 
@@ -84,8 +84,6 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
         } else {
             // 数据库用户的密码，一般都是加密过的
             String encryptedPassword = userDetails.getPassword();
-            // 用户输入的密码
-            String inputPassword = (String) token.getCredentials();
             // 根据加密算法加密用户输入的密码，然后和数据库中保存的密码进行比较
             if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
                 throw new BadCredentialsException(userName + " 输入账号或密码不正确");
