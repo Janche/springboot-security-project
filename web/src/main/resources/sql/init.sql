@@ -182,11 +182,11 @@ INSERT INTO `menu_right` VALUES (3, 1, '日志管理', '', '/operationManagement
 INSERT INTO `menu_right` VALUES (20, 2, '用户管理', '', '/SystemManagement/userManagement', '', 1, 2, 1, '2019-01-09 17:09:08', NULL);
 INSERT INTO `menu_right` VALUES (21, 2, '角色管理', '', '/SystemManagement/roleManagement', '', 1, 2, 1, '2019-01-09 17:09:08', NULL);
 INSERT INTO `menu_right` VALUES (201, 20, '添加用户', 'POST', '/user/add', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
-INSERT INTO `menu_right` VALUES (202, 20, '删除用户', 'DELETE', '/user/delete', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
+INSERT INTO `menu_right` VALUES (202, 20, '删除用户', 'DELETE', '/user/delete/*', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
 INSERT INTO `menu_right` VALUES (203, 20, '修改用户', 'PUT', '/user/update', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
 INSERT INTO `menu_right` VALUES (204, 20, '用户列表', 'GET', '/user/list', NULL, 3, 3, 1, '2019-08-19 16:20:17', NULL);
 INSERT INTO `menu_right` VALUES (210, 21, '角色列表', 'GET', '/role/list', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
-INSERT INTO `menu_right` VALUES (211, 21, '删除角色', 'DELETE', '/role/delete', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
+INSERT INTO `menu_right` VALUES (211, 21, '删除角色', 'DELETE', '/role/delete/*', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
 INSERT INTO `menu_right` VALUES (212, 21, '添加角色', 'GET', '/role/add', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
 INSERT INTO `menu_right` VALUES (213, 21, '修改角色', 'GET', '/role/update', '', 3, 3, 1, '2019-01-09 17:09:08', NULL);
 

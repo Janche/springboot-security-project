@@ -1,6 +1,5 @@
 package com.example.janche.user.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import com.example.janche.common.core.AbstractService;
 import com.example.janche.common.model.Constant;
 import com.example.janche.common.restResult.PageParam;
@@ -17,6 +16,7 @@ import com.example.janche.user.dto.role.RoleDTO;
 import com.example.janche.user.dto.role.RoleInputDTO;
 import com.example.janche.user.dto.role.RoleOutpDTO;
 import com.example.janche.user.service.RoleService;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -113,7 +113,7 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
 
     /**
      * 删除角色
-     * @param id 角色id 
+     * @param id 角色id
      */
     @Override
     public void deleteRole(Long id) {
@@ -224,7 +224,7 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
             }
             addTreeNode(rootNode, menu, isChecked);
         }
-        // dfsTreeNodes(rootNode);
+        dfsTreeNodes(rootNode);
         outpDTO.setMenus(rootNode.getChildren());
         return outpDTO;
     }
@@ -238,12 +238,11 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
         List<MenuRight> menus = menuRightMapper.selectAll();
         TreeNodeDTO rootNode = new TreeNodeDTO();
         menus.stream().forEach(m -> addTreeNode(rootNode, m, false));
-        // dfsTreeNodes(rootNode);
         return rootNode;
     }
 
     /**
-     * 递归遍历 树节点 将多余的子节点替换为查看和编辑
+     * 递归遍历 树节点 将未完全选中的节点置为false, 全选才是true
      * @param rootNode
      * @return
      */
@@ -251,27 +250,20 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
         if (null == rootNode.getChildren() || rootNode.getChildren().size() == 0) {
             return rootNode;
         }
-
         List<TreeNodeDTO> list = rootNode.getChildren();
         for (TreeNodeDTO node : list) {
             this.dfsTreeNodes(node);
         }
-        if (null != list && null != list.get(0).getIds()) {
-            List<TreeNodeDTO> children = new ArrayList<>();
-            Map<String, TreeNodeDTO> map = new HashMap<>();
-            for (TreeNodeDTO node : list) {
-                String key = node.getParentId() + node.getName();
-                TreeNodeDTO nodeDTO = map.get(key);
-                if (null != nodeDTO) {
-                    List<Long> ids = node.getIds();
-                    ids.addAll(nodeDTO.getIds());
-                    node.setIds(ids);
-                    node.setChecked(nodeDTO.getChecked() ? nodeDTO.getChecked() : node.getChecked());
-                }
-                map.put(key, node);
+        int count = 0;
+        for (TreeNodeDTO node : list) {
+            if (node.getChecked()){
+                count++;
             }
-            map.forEach((k, v) -> children.add(v));
-            rootNode.setChildren(children);
+        }
+        if (count == list.size()){
+            rootNode.setChecked(true);
+        }else{
+            rootNode.setChecked(false);
         }
         return rootNode;
     }
@@ -284,49 +276,11 @@ public class RoleServiceImpl extends AbstractService<Role> implements RoleServic
      */
     private void addTreeNode(TreeNodeDTO rootNode, MenuRight menu, Boolean isChecked) {
         TreeNodeDTO node = new TreeNodeDTO();
-        // if (menu.getGrades() == 3){
-        //     node.setId(menu.getId());
-        //     node.setParentId(menu.getParentId());
-        //     if (menu.getSeq() == 1){
-        //         node.setName("查看");
-        //     } else {
-        //       node.setName("编辑");
-        //     }
-        //     node.setChecked(isChecked);
-        //     List<Long> ids = new ArrayList<>();
-        //     ids.add(menu.getId());
-        //     node.setIds(ids);
-        // }else{
-            node.setId(menu.getId());
-            node.setParentId(menu.getParentId());
-            node.setName(menu.getName());
-            node.setChecked(isChecked);
-            node.setIds(null);
-        // }
+        node.setId(menu.getId());
+        node.setParentId(menu.getParentId());
+        node.setName(menu.getName());
+        node.setChecked(isChecked);
         rootNode.add(node);
-    }
-
-    /**
-     * 递归获取TreeNode节点中的menuId
-     * @param rootNode
-     * @return
-     */
-    public Set<Long> parseTreeNode(TreeNodeDTO rootNode){
-        Set<Long> set = new HashSet<>();
-        if (null == rootNode.getChildren() || rootNode.getChildren().size() == 0) {
-            return set;
-        }
-        for (TreeNodeDTO node :rootNode.getChildren()) {
-            if (node.getChecked()){
-                set.add(node.getId());
-                if (null != node.getIds()) {
-                    set.addAll(node.getIds());
-                }
-            }
-            Set<Long> nodeSets = this.parseTreeNode(node);
-            set.addAll(nodeSets);
-        }
-        return set;
     }
 
     /**

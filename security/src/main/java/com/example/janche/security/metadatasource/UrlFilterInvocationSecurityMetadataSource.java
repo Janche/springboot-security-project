@@ -51,7 +51,7 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
 
         // 获取用户ID
         Long userId = SecurityUtils.getLoginUserId();
-        if (null != userId){
+        if (null != userId && userId != -1){
             // 获取系统所有权限
             List<MenuDTO> menuDTOS = menuRightMapper.getAllMenus();
             for (MenuDTO menu : menuDTOS) {

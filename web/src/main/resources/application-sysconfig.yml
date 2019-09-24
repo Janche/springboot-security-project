@@ -1,6 +1,10 @@
 janche:
   # 跨域ip处理
-  origins: http://localhost:8080,http://192.168.99.100:8091,http://127.0.0.1:8080,http://cebon.hoteas.com:8082
+  origins:
+    - http://localhost:8080
+    - http://192.168.1.202:8080
+    - http://127.0.0.1:8080
+    - http://cebon.hoteas.com:8082
 
 
   #=============日志操作类型==============
@@ -13,3 +17,9 @@ janche:
     6: "退出"
     7: "导出"
     8: "导入"
+
+# 热部署插件指定端口,具体视自己情况而定,只要不重复就可以，默认是35729
+spring:
+  devtools:
+    livereload:
+      port: 35730

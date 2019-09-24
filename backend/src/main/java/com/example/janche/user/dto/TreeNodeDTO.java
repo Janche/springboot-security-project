@@ -18,12 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TreeNodeDTO implements Serializable, Comparable<TreeNodeDTO> {
-    
+
     private Long id;
     private Long parentId;
     private String name;
     private Boolean checked;
-    private List<Long> ids;
     private List<TreeNodeDTO> children = new ArrayList<>();
 
     public void add(TreeNodeDTO node) {

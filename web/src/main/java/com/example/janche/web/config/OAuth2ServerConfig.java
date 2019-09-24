@@ -89,25 +89,19 @@ public class OAuth2ServerConfig {
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
         @Autowired
-        AuthenticationManager authenticationManager;
+        private AuthenticationManager authenticationManager;
         @Autowired
         private DataSource dataSource;
         @Autowired
-        SecurityUserService userDetailsService;
+        private SecurityUserService userDetailsService;
         @Autowired
-        ClientDetailsService clientDetailsService;
+        private ClientDetailsService clientDetailsService;
         @Autowired
         private AuthorizationCodeServices authorizationCodeServices;
+        @Autowired
+        private PasswordEncoder passwordEncoder;
         // @Autowired
         // private RedisConnectionFactory redisConnectionFactory;
-
-        /**
-         * 密码加密
-         */
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
 
         /**
          * ClientDetails实现
@@ -192,7 +186,7 @@ public class OAuth2ServerConfig {
         public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
             //允许表单认证
             oauthServer.allowFormAuthenticationForClients();
-            oauthServer.passwordEncoder(passwordEncoder());
+            oauthServer.passwordEncoder(passwordEncoder);
             // 对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
             oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
             oauthServer.realm("oauth2");

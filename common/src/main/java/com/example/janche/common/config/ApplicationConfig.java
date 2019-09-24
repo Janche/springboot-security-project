@@ -20,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ApplicationConfig implements IApplicationConfig, Serializable {
     private sortType sorttype;
-    private String origins;
+    private String[] origins;
     private Map<Integer,String> logOperation;
     private Map<Integer,String> logType;
 

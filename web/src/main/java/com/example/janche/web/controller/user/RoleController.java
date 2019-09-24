@@ -110,28 +110,12 @@ public class RoleController {
         return ResultGenerator.genSuccessResult(list);
     }
 
-    // @Log
-    // @PostMapping(value = "/all")
-    // @ApiOperation(value = "角色列表", notes = "下拉框角色列表", produces = "application/json")
-    // public RestResult listAll() {
-    //     List<Role> list = roleService.listAll();
-    //     return ResultGenerator.genSuccessResult(list);
-    // }
-
     @Log
     @GetMapping("/menu/tree")
     @ApiOperation(value = "获取权限树", notes = "获取权限树", produces = "application/json")
     public RestResult menuTree() {
         TreeNodeDTO nodeDTO = roleService.getMenuTree();
         return ResultGenerator.genSuccessResult(nodeDTO.getChildren());
-    }
-
-    @Log
-    @PostMapping("/menu/parse")
-    @ApiOperation(value = "解析权限树", notes = "解析权限树", produces = "application/json", hidden = true)
-    public RestResult parseTreeNode(@RequestBody TreeNodeDTO nodeDTO) {
-        Set<Long> set = roleService.parseTreeNode(nodeDTO);
-        return ResultGenerator.genSuccessResult(set);
     }
 
 }

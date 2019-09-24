@@ -15,7 +15,7 @@ public class WebConfigration implements  WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        String[] IPs = this.applicationConfig.getOrigins().split(",");
+        String[] IPs = this.applicationConfig.getOrigins();
         registry.addMapping("/**")
                 .allowedOrigins(IPs)
                 //允许的请求方式

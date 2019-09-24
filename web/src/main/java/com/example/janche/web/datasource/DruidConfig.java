@@ -27,15 +27,15 @@ public class DruidConfig {
         return servletRegistrationBean;
     }
 
-    @Bean
-    public FilterRegistrationBean statFilter() {
-        // 创建过滤器
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
-        // 设置过滤器过滤路径
-        filterRegistrationBean.addUrlPatterns("/*");
-        // 忽略过滤的形式
-        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
-        return filterRegistrationBean;
-    }
+    // @Bean
+    // public FilterRegistrationBean statFilter() {
+    //     // 创建过滤器
+    //     FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+    //     // 设置过滤器过滤路径
+    //     filterRegistrationBean.addUrlPatterns("/*");
+    //     // 忽略过滤的形式
+    //     filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+    //     return filterRegistrationBean;
+    // }
 
 }

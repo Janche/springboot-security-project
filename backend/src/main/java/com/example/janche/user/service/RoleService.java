@@ -77,13 +77,6 @@ public interface RoleService extends Service<Role> {
     void deleteRole(String ids);
 
     /**
-     * 递归获取TreeNode节点中的menuId
-     * @param rootNode
-     * @return
-     */
-    Set<Long> parseTreeNode(TreeNodeDTO rootNode);
-
-    /**
      * 批量冻结成功
      * @param ids
      * @param status

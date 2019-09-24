@@ -14,25 +14,24 @@ import java.util.Arrays;
 @Slf4j
 public class ResponseUtils {
 
-    public static void addResponseHeader(HttpServletResponse response , String origins, String originHeader) {
-        String[] IPs = origins.split(",");
+    public static void addResponseHeader(HttpServletResponse response , String[] origins, String originHeader) {
+        String[] IPs = origins;
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader( "Access-Control-Allow-Headers", "Content-Type");
         // response.setHeader("Access-Control-Allow-Origin", "*");
         if (Arrays.asList(IPs).contains(originHeader)) {
-            //     // todo 可以用 * 测试
             response.setHeader("Access-Control-Allow-Origin", originHeader);
         }
     }
 
 
-    public static void renderJson(HttpServletRequest request, HttpServletResponse response, CustomException e, String origins) {
+    public static void renderJson(HttpServletRequest request, HttpServletResponse response, CustomException e, String[] origins) {
         renderJson(request, response, e.getResultCode(), null, origins);
     }
 
-    public static void renderJson(HttpServletRequest request, HttpServletResponse response, ResultCode code, String origins) {
+    public static void renderJson(HttpServletRequest request, HttpServletResponse response, ResultCode code, String[] origins) {
         renderJson(request, response, code, null, origins);
     }
 
@@ -43,7 +42,7 @@ public class ResponseUtils {
      * @param code 状态
      * @param data     返回数据
      */
-    public static void renderJson(HttpServletRequest request, HttpServletResponse response, ResultCode code, Object data, String origins) {
+    public static void renderJson(HttpServletRequest request, HttpServletResponse response, ResultCode code, Object data, String[] origins) {
         try {
             String origin = request.getHeader("Origin");
             // setHeader(response);
@@ -64,7 +63,7 @@ public class ResponseUtils {
      * @param response 响应
      * @param result 返回数据
      */
-    public static void renderSuccessJson(HttpServletRequest request, HttpServletResponse response, RestResult result, String origins) {
+    public static void renderSuccessJson(HttpServletRequest request, HttpServletResponse response, RestResult result, String[] origins) {
         try {
             String origin = request.getHeader("Origin");
             // setHeader(response);
