@@ -26,7 +26,7 @@
 // import java.util.Set;
 //
 // /**
-//  * @author daiyp
+//  * @author lirong
 //  * @date 2018/9/27
 //  */
 // public class RefreshCustomAuthenticationProvider implements AuthenticationProvider {

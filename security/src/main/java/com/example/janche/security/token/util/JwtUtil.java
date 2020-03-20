@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * jwt工具类
- * @author  daiyp
+ * @author  lirong
  * @date 2018-9-26
  */
 public class JwtUtil {

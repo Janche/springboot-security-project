@@ -37,7 +37,6 @@ public class OAuth2ServerConfig {
 
     private static final String RESOURCE_ID = "oauth2";
 
-
     @Configuration
     @EnableResourceServer
     protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
@@ -45,9 +44,9 @@ public class OAuth2ServerConfig {
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
             // 如果关闭 stateless，则 accessToken 使用时的 session id 会被记录，后续请求不携带 accessToken 也可以正常响应
-            resources.resourceId(RESOURCE_ID).stateless(false);
+            // 如果 stateless 为 true 打开状态，则 每次请求都必须携带 accessToken 请求才行，否则将无法访问
+            resources.resourceId(RESOURCE_ID).stateless(true);
         }
-
 
         /**
          * 为oauth2单独创建角色，这些角色只具有访问受限资源的权限，可解决token失效的问题
@@ -61,15 +60,13 @@ public class OAuth2ServerConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                     // 资源服务器拦截的路径 注意此路径不要和主过滤器冲突
-                    .requestMatchers().antMatchers("/authmenu/**");
-
+                    .requestMatchers().antMatchers("/user/oauth/**");
             //
             http
                 .authorizeRequests()
                      // 配置资源服务器已拦截的路径才有效
-                    .antMatchers("/authmenu/**").authenticated();
+                    .antMatchers("/user/oauth/**").authenticated();
                     // .access(" #oauth2.hasScope('select') or hasAnyRole('ROLE_超级管理员', 'ROLE_设备管理员')");
-
             //
             http
                 .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler())
@@ -77,10 +74,7 @@ public class OAuth2ServerConfig {
                 .authorizeRequests()
                     .anyRequest()
                     .authenticated();
-
-
         }
-
     }
 
 
@@ -153,12 +147,10 @@ public class OAuth2ServerConfig {
         //     return tokenServices;
         // }
 
-
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // 1. 数据库的方式
             clients.withClientDetails(clientDetails());
-
         }
 
 
@@ -190,12 +182,6 @@ public class OAuth2ServerConfig {
             // 对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
             oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
             oauthServer.realm("oauth2");
-            // oauthServer.addTokenEndpointAuthenticationFilter(new Oauth2Filter());
-
         }
-
-
-
     }
-
 }

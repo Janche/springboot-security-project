@@ -38,20 +38,16 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication ) throws AuthenticationException {
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = sra.getRequest();
+        // ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        // HttpServletRequest request = sra.getRequest();
 
         // 判断当前IP是否允许登录
         // Boolean flag = this.checkLoginIp(request);
         // if (!flag){
         //     throw new LockedException("IP或IP段已被禁用");
         // }
-
 		System.out.println("*********************");
-		// [1] token 中的用户名和密码都是用户输入的，不是数据库里的
-        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-
-        //获取 username 和 password
+        // [1] 获取 username 和 password
 		String userName = (String) authentication.getPrincipal();
         String inputPassword = (String) authentication.getCredentials();
 
@@ -75,37 +71,24 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
         } else if (!userDetails.isCredentialsNonExpired()) {
             throw new LockedException(userName + " 凭证已过期");
         }
-        // [4] 根据不同的情况比对密码
-        if (isOAuthUser(userDetails)) {
-            // 通过 OAuth 登陆过来的，例如密码是调用 SecurityHelper.login() 前判断是 OAuth 合法登陆的，
-            // 然后就查询数据库得到本地用户的密码，这里可以只需要和数据库里的使用等于比较就可以了，具体的仍然需要根据业务逻辑调整
-        	log.info(userDetails.getUsername()+"通过oauth2登录");
 
-        } else {
-            // 数据库用户的密码，一般都是加密过的
-            String encryptedPassword = userDetails.getPassword();
-            // 根据加密算法加密用户输入的密码，然后和数据库中保存的密码进行比较
-            if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
-                throw new BadCredentialsException(userName + " 输入账号或密码不正确");
-            }
-
+        // [4] 数据库用户的密码，一般都是加密过的
+        String encryptedPassword = userDetails.getPassword();
+        // 根据加密算法加密用户输入的密码，然后和数据库中保存的密码进行比较
+        if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
+            throw new BadCredentialsException(userName + " 输入账号或密码不正确");
         }
+
         // [5] 成功登陆，把用户信息提交给 Spring Security
         // 把 userDetails 作为 principal 的好处是可以放自定义的 UserDetails，这样可以存储更多有用的信息，而不只是 username，
         // 默认只有 username，这里的密码使用数据库中保存的密码，而不是用户输入的明文密码，否则就暴露了密码的明文
         return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-
-
 	}
 
 	@Override
 	public boolean supports( Class<?> authentication ) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
-
-    private boolean isOAuthUser(UserDetails userDetails) {
-    	return false;
-    }
 
     /**
      * 检测登录IP是否合法

@@ -16,9 +16,9 @@ spring:
   # 数据源
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/boot2-oauth?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    url: jdbc:mysql://192.168.0.25:3306/boot2-oauth?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
     username: root
-    password: root
+    password: xuejinyu
 
     # Druid连接池配置
     type: com.alibaba.druid.pool.DruidDataSource

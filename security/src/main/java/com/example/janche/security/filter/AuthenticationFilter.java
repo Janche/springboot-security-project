@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * AuthenticationFilter
  *
- * @author daiyp
+ * @author lirong
  * @date 2018/9/13
  */
 @Slf4j

@@ -61,21 +61,4 @@
         order by m.id ASC
     </select>
 
-    <!--查询下级所有角色-->
-    <select id="findRoleByIndex" resultMap="BaseResultMap">
-       /* select
-          r2.*
-        from role r
-        join role r2 on r2.role_index like concat(r.role_index, ',%')
-        where r.role_index = #{index} and find_in_set(r.id, r2.role_index)*/
-    </select>
-
-    <select id="getRolesByUrl" resultMap="BaseResultMap">
-        select
-        distinct r.* from role r
-        left join role_right rr on rr.role_id = r.id
-        left join menu_right m on m.id = rr.menu_id
-        where m.url = #{url}
-    </select>
-
 </mapper>

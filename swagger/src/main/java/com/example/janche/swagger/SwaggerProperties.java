@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * SwaggerProperties
  *
- * @author daiyp
+ * @author lirong
  * @date 2018/09/
  */
 @ConfigurationProperties("swagger")

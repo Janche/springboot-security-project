@@ -22,7 +22,7 @@
 // /**
 //  * CustomAuthenticationProvider
 //  *
-//  * @author daiyp
+//  * @author lirong
 //  * @date 2018/9/27
 //  */
 // public class CustomAuthenticationProvider implements AuthenticationProvider {
