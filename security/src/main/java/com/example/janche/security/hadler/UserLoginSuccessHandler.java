@@ -13,21 +13,17 @@ import com.example.janche.user.dao.MenuRightMapper;
 import com.example.janche.user.domain.MenuRight;
 import com.example.janche.user.dto.LoginOutpDTO;
 import com.example.janche.user.dto.LoginUserDTO;
-import com.example.janche.user.service.MenuRightService;
-import com.example.janche.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @Component("userLoginSuccessHandler")

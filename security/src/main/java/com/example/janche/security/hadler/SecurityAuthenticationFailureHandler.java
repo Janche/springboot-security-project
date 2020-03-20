@@ -13,10 +13,8 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 
 @Component("securityAuthenticationFailureHandler")
@@ -27,8 +25,7 @@ public class SecurityAuthenticationFailureHandler implements AuthenticationFailu
 	@Resource
 	private SysLogService sysLogService;
 	@Override
-	public void onAuthenticationFailure(HttpServletRequest request , HttpServletResponse response , AuthenticationException exception)
-			throws IOException, ServletException {
+	public void onAuthenticationFailure(HttpServletRequest request , HttpServletResponse response , AuthenticationException exception) {
 		// 记录登录失败的日志
 		this.saveLog(request, exception);
 		log.info("登录失败: "+ exception.getMessage());

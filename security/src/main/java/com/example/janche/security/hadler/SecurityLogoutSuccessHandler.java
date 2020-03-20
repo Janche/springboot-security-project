@@ -2,7 +2,6 @@ package com.example.janche.security.hadler;
 
 import com.example.janche.common.config.IApplicationConfig;
 import com.example.janche.common.restResult.RestResult;
-import com.example.janche.common.util.IPUtils;
 import com.example.janche.log.domain.SysLog;
 import com.example.janche.log.service.SysLogService;
 import com.example.janche.security.utils.ResponseUtils;
@@ -17,8 +16,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.Map;
 
 
 @Component("securityLogoutSuccessHandler")

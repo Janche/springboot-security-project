@@ -1,36 +1,42 @@
 package com.example.janche.security.metadatasource;
 
+import com.example.janche.security.ignore.CustomConfig;
 import com.example.janche.security.utils.SecurityUtils;
 import com.example.janche.user.dao.MenuRightMapper;
 import com.example.janche.user.domain.Role;
 import com.example.janche.user.dto.MenuDTO;
-import com.example.janche.user.service.MenuRightService;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Component("urlFilterInvocationSecurityMetadataSource")
 @Slf4j
 public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Resource
     private MenuRightMapper menuRightMapper;
-
+    @Autowired
+    private CustomConfig customConfig;
     /**
      * 当前激活的配置文件
      */
     @Value("${spring.profiles.active}")
     private String env;
 
-    AntPathMatcher antPathMatcher = new AntPathMatcher();
+    AntPathRequestMatcher antPathMatcher = null;
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
@@ -40,12 +46,10 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         //     return null;
         // }
 
-        String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        if (requestUrl.contains("?")) {
-            requestUrl = requestUrl.substring(0, requestUrl.indexOf("?"));
-        }
-        String requesMethod =  ((FilterInvocation) o).getHttpRequest().getMethod().toUpperCase();
-        if("OPTIONS".equals(requesMethod)) {
+        HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
+
+        // 检查是否为放行的请求
+        if (checkIgnores(request)){
             return null;
         }
 
@@ -55,9 +59,8 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
             // 获取系统所有权限
             List<MenuDTO> menuDTOS = menuRightMapper.getAllMenus();
             for (MenuDTO menu : menuDTOS) {
-                if (antPathMatcher.match(menu.getUrl(), requestUrl)
-                        && menu.getRoles().size()>0) {
-
+                antPathMatcher = new AntPathRequestMatcher(menu.getUrl(), menu.getMethod());
+                if (antPathMatcher.matches(request) && menu.getRoles().size() > 0) {
                     List<Role> roles = menu.getRoles();
                     int size = roles.size();
                     String[] values = new String[size];
@@ -80,5 +83,71 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     @Override
     public boolean supports(Class<?> aClass) {
         return FilterInvocation.class.isAssignableFrom(aClass);
+    }
+
+    /**
+     * 请求是否不需要进行权限拦截
+     *
+     * @param request 当前请求
+     * @return true - 忽略，false - 不忽略
+     */
+    private boolean checkIgnores(HttpServletRequest request) {
+        String method = request.getMethod();
+
+        HttpMethod httpMethod = HttpMethod.resolve(method);
+        if (null == httpMethod) {
+            httpMethod = HttpMethod.GET;
+        }
+
+        Set<String> ignores = Sets.newHashSet();
+
+        switch (httpMethod) {
+            case GET:
+                ignores.addAll(customConfig.getIgnores()
+                        .getGet());
+                break;
+            case PUT:
+                ignores.addAll(customConfig.getIgnores()
+                        .getPut());
+                break;
+            case HEAD:
+                ignores.addAll(customConfig.getIgnores()
+                        .getHead());
+                break;
+            case POST:
+                ignores.addAll(customConfig.getIgnores()
+                        .getPost());
+                break;
+            case PATCH:
+                ignores.addAll(customConfig.getIgnores()
+                        .getPatch());
+                break;
+            case TRACE:
+                ignores.addAll(customConfig.getIgnores()
+                        .getTrace());
+                break;
+            case DELETE:
+                ignores.addAll(customConfig.getIgnores()
+                        .getDelete());
+                break;
+            case OPTIONS:
+                ignores.addAll(customConfig.getIgnores()
+                        .getOptions());
+                break;
+            default:
+                break;
+        }
+
+        ignores.addAll(customConfig.getIgnores().getPattern());
+
+        if (!ignores.isEmpty()) {
+            for (String ignore : ignores) {
+                AntPathRequestMatcher matcher = new AntPathRequestMatcher(ignore, method);
+                if (matcher.matches(request)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

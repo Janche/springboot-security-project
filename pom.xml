@@ -119,13 +119,6 @@
         </dependency>
         <!-- poi end -->
 
-        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-core -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-            <version>4.1.14</version>
-        </dependency>
-
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -8,16 +8,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 
 @Component("securityAuthenticationProvider")
@@ -38,14 +34,7 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication ) throws AuthenticationException {
-        // ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        // HttpServletRequest request = sra.getRequest();
 
-        // 判断当前IP是否允许登录
-        // Boolean flag = this.checkLoginIp(request);
-        // if (!flag){
-        //     throw new LockedException("IP或IP段已被禁用");
-        // }
 		System.out.println("*********************");
         // [1] 获取 username 和 password
 		String userName = (String) authentication.getPrincipal();
@@ -89,38 +78,4 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 	public boolean supports( Class<?> authentication ) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
-
-    /**
-     * 检测登录IP是否合法
-     * @param request
-     */
-    // private Boolean checkLoginIp(HttpServletRequest request) {
-    //     String loginIp = IPUtils.getIpAddr(request);
-    //     log.debug("登录的IP：", loginIp);
-    //
-    //     List<SystemInfo> prohibitIps = this.getSystemIp("IP");
-    //     for (SystemInfo info : prohibitIps) {
-    //         if (loginIp.equals(info.getValue())){
-    //             log.debug("被禁用的IP：", info.getValue());
-    //             return false;
-    //         }
-    //     }
-    //
-    //     List<SystemInfo> ipSections = this.getSystemIp("IPSection");
-    //     for (SystemInfo info : ipSections){
-    //         if(IPUtils.ipIsValid(info.getValue(), loginIp)){
-    //             log.debug("被禁用的IP段：", info.getValue());
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-    //
-    // private List<SystemInfo> getSystemIp(String ip) {
-    //     Example example = new Example(SystemInfo.class);
-    //     example.and()
-    //             .andEqualTo("type", ip)
-    //             .andEqualTo("status", 1);
-    //     return systemInfoMapper.selectByExample(example);
-    // }
 }

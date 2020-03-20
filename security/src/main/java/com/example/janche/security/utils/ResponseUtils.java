@@ -45,10 +45,8 @@ public class ResponseUtils {
     public static void renderJson(HttpServletRequest request, HttpServletResponse response, ResultCode code, Object data, String[] origins) {
         try {
             String origin = request.getHeader("Origin");
-            // setHeader(response);
             addResponseHeader(response, origins, origin);
             response.setStatus(200);
-
             //  将JSON转为String的时候，忽略null值的时候转成的String存在错误
             RestResult result = null != data ? new RestResult(code, data) : new RestResult(code);
             response.getWriter().write(JSON.toJSONString(result));
@@ -66,18 +64,11 @@ public class ResponseUtils {
     public static void renderSuccessJson(HttpServletRequest request, HttpServletResponse response, RestResult result, String[] origins) {
         try {
             String origin = request.getHeader("Origin");
-            // setHeader(response);
             addResponseHeader(response, origins, origin);
             response.setStatus(200);
             response.getWriter().write(JSON.toJSONString(result));
         } catch (IOException ex) {
             log.error("Response写出JSON异常，", ex);
         }
-    }
-
-    public static void setHeader(HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setContentType("application/json;charset=UTF-8");
     }
 }
