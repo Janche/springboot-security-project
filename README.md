@@ -34,3 +34,5 @@
 4. 日志管理
     - [x] 日志的CRUD
 
+### OAuth2 授权码和password测试如下：
+![OAuth2测试](https://img-blog.csdnimg.cn/20200320172751161.gif)
