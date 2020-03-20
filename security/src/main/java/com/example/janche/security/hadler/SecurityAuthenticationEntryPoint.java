@@ -29,6 +29,14 @@ public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoin
 		if(request.getMethod() != HttpMethod.OPTIONS.toString()) {
 			log.info("尚未登录:" + authException.getMessage());
 		}
-		ResponseUtils.renderJson(request, response, ResultCode.UNLOGIN, applicationConfig.getOrigins());
+		// 1. 返回json让前端自己处理
+		// ResponseUtils.renderJson(request, response, ResultCode.UNLOGIN, applicationConfig.getOrigins());
+
+		// 2. 由后端直接跳转到登录页面
+		try {
+			response.sendRedirect(request.getContextPath() + "/static/login.html");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
