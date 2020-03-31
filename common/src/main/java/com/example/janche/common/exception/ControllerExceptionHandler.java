@@ -37,7 +37,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public void handleCustomException(Exception e, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         PrintWriter writer = null;
         RestResult result = null;
         if (e instanceof CustomException){
