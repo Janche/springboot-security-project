@@ -77,9 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/favicon.ico",
                 "/static/**",
                 "/resources/**",
-                "/error",
-                "/swagger-ui.html",
-                "/swagger-resources/**");
+                "/error");
     }
 
     @Override

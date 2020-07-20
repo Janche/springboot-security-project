@@ -28,7 +28,10 @@ custom:
       # 需要过滤的请求，不限方法
       pattern:
       # 配置 不拦截 的请求，测试可以配置 /**
-        - "/app"
+        - "/swagger-ui.html"
+        - "/v2/**"
+        - "/webjars/**"
+        - "/swagger-resources/**"
 
 # 热部署插件指定端口,具体视自己情况而定,只要不重复就可以，默认是35729
 spring:

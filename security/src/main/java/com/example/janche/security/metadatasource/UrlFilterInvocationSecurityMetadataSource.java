@@ -47,7 +47,6 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
         // }
 
         HttpServletRequest request = ((FilterInvocation) o).getHttpRequest();
-
         // 检查是否为放行的请求
         if (checkIgnores(request)){
             return null;

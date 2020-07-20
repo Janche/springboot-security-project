@@ -1,9 +1,9 @@
 package com.example.janche.common.core;
 
+import tk.mybatis.mapper.additional.insert.InsertListMapper;
 import tk.mybatis.mapper.common.BaseMapper;
 import tk.mybatis.mapper.common.ConditionMapper;
 import tk.mybatis.mapper.common.ExampleMapper;
-import tk.mybatis.mapper.common.MySqlMapper;
 
 /**
  * <P></P>
@@ -14,7 +14,7 @@ import tk.mybatis.mapper.common.MySqlMapper;
  */
 public interface TkMapper<T> extends
         BaseMapper<T>,
-        MySqlMapper<T>,
+        InsertListMapper<T>,
         ConditionMapper<T>,
         ExampleMapper<T>{
 }
