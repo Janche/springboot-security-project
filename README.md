@@ -12,12 +12,12 @@
 
 |依赖            |版本         |
 |:------------- |:------------|
-|[Spring Boot](http://mvnrepository.com/artifact/org.springframework.boot/spring-boot)    |2.1.4.RELEASE|
-|[Spring Web MVC](http://mvnrepository.com/artifact/org.springframework/spring-webmvc)     |5.1.6.RELEASE|
+|[Spring Boot](http://mvnrepository.com/artifact/org.springframework.boot/spring-boot)    |2.1.8.RELEASE|
+|[Spring Web MVC](http://mvnrepository.com/artifact/org.springframework/spring-webmvc)     |5.1.9.RELEASE|
 |[Spring Security Web](http://mvnrepository.com/artifact/org.springframework.security/spring-security-web)|5.1.5.RELEASE|
-|[MyBatis](http://mvnrepository.com/artifact/org.mybatis/mybatis)        |3.5.0      |
+|[MyBatis](http://mvnrepository.com/artifact/org.mybatis/mybatis)        |4.1.5|
 |[通用mapper](https://mvnrepository.com/artifact/tk.mybatis/mapper-spring-boot-starter)      |2.1.5|
-|[Druid](http://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter)          |1.1.10       |
+|[Druid](http://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter)          |1.1.21|
 
 ### 启动步骤
 > 1. 创建数据库boot2-oauth, 执行web模块下resources/sql/init.sql文件
