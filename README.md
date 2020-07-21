@@ -7,7 +7,8 @@
 3. spring-security目前使用的是基于权限的动态校验，采用黑名单的方式对接口权限的判断。
 4. 框架内已包含许多工具类，MD5加密、json、POI的excel文档操作，以及时间和日期等常见工具类。
 5. 采用了@Log对项目日志的记录。
-6. 加入对OAuth2的支持 （[博客地址](https://blog.csdn.net/qq_34997906/article/details/89600076)）
+6. 接口文档地址：http://localhost:9999/swagger-ui.html
+7. 加入对OAuth2的支持 （[博客地址](https://blog.csdn.net/qq_34997906/article/details/89600076)）
 
 |依赖            |版本         |
 |:------------- |:------------|
