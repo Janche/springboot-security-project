@@ -23,6 +23,10 @@
 > 1. 创建数据库boot2-oauth, 执行web模块下resources/sql/init.sql文件
 > 2. 使用postman测试登录接口  /login  POST 方式 ，本项目返回均是JSON字符串，重定向到登录页面，需要前端做处理，若想要后端直接重定向到登录页面的话，需要配置WebSecurityConfig中引入的那几个Handler，将里面返回的json值改为重定向到登录页面即可。 
 
+### 温馨提示
+1. 可根据项目需要自定义 `backend/src/test/resources/generator/template/**` 目录下的模板文件
+2. 定义好表结构后，配置 `backend/src/test/java/CodeGenerator.java` 这个文件，运行即可生成项目的基础代码
+
 ### 完成模块
 1. 用户管理
     - [x] 用户的CRUD
