@@ -1,5 +1,3 @@
-//import freemarker.template.TemplateExceptionHandler;
-
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -134,6 +132,7 @@ public class CodeGenerator {
         jdbcConnectionConfiguration.setUserId(JDBC_USERNAME);
         jdbcConnectionConfiguration.setPassword(JDBC_PASSWORD);
         jdbcConnectionConfiguration.setDriverClass(JDBC_DIVER_CLASS_NAME);
+        jdbcConnectionConfiguration.addProperty("nullCatalogMeansCurrent", "true");
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
 
         //Plugin
