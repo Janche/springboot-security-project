@@ -108,7 +108,10 @@ mapper:
 # 日志
 logging.config: classpath:logging-spring.xml
 swagger:
-  title: 接口文档
+  title: 脚手架接口文档
   basepackage: com.example.janche
   version: 1.0.0
+  contract-name: Janche
+  contract-url: https://blog.csdn.net/qq_34997906
+  contract-email: lirong_xx@qq.com
 

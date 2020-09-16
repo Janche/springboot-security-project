@@ -32,6 +32,7 @@ custom:
         - "/v2/**"
         - "/webjars/**"
         - "/swagger-resources/**"
+        - "/doc.html"
 
 # 热部署插件指定端口,具体视自己情况而定,只要不重复就可以，默认是35729
 spring:
