@@ -3,7 +3,6 @@ package com.example.janche.user.service;
 import com.example.janche.common.core.Service;
 import com.example.janche.common.restResult.PageParam;
 import com.example.janche.user.domain.MenuRight;
-import com.example.janche.user.dto.MenuDTO;
 
 import java.util.List;
 
@@ -52,7 +51,7 @@ public interface MenuRightService extends Service<MenuRight> {
      * @param userId 用户ID
      * @return
      */
-    List<MenuDTO> getUserMenus(Long userId);
+    List<MenuRight> getUserMenus(Long userId);
 
     /**
      * 获取系统列表

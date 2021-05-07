@@ -4,8 +4,8 @@ import com.example.janche.common.restResult.PageParam;
 import com.example.janche.common.restResult.RestResult;
 import com.example.janche.common.restResult.ResultGenerator;
 import com.example.janche.security.utils.SecurityUtils;
+import com.example.janche.user.domain.MenuRight;
 import com.example.janche.user.domain.User;
-import com.example.janche.user.dto.MenuDTO;
 import com.example.janche.user.dto.user.UserConditionDTO;
 import com.example.janche.user.dto.user.UserInputDTO;
 import com.example.janche.user.dto.user.UserOutpDTO;
@@ -168,7 +168,7 @@ public class UserController  {
     @Log
     @ApiOperation(value = "用户所有的权限", notes = "SSO客户端使用接口", produces = "application/json")
     @PostMapping("/oauth/menu")
-    public List<MenuDTO> getSsoUserMenus() {
+    public List<MenuRight> getSsoUserMenus() {
         Long userId = SecurityUtils.getLoginUserId();
         return menuRightService.getUserMenus(userId);
     }

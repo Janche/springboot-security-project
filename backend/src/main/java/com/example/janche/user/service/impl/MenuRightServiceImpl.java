@@ -4,7 +4,6 @@ import com.example.janche.common.core.AbstractService;
 import com.example.janche.common.restResult.PageParam;
 import com.example.janche.user.dao.MenuRightMapper;
 import com.example.janche.user.domain.MenuRight;
-import com.example.janche.user.dto.MenuDTO;
 import com.example.janche.user.service.MenuRightService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -80,9 +79,8 @@ public class MenuRightServiceImpl extends AbstractService<MenuRight> implements 
      * @return
      */
     @Override
-    public List<MenuDTO> getUserMenus(Long userId) {
-        // return menuRightMapper.getUserMenus(userId);
-        return null;
+    public List<MenuRight> getUserMenus(Long userId) {
+         return menuRightMapper.getUserMenus(userId);
     }
 
     /**
