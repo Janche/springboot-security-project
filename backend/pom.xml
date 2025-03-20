@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>5.1.2.RELEASE</version>
+            <version>6.3.8</version>
         </dependency>
     </dependencies>
 </project>
